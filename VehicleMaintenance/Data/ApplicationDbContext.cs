@@ -8,7 +8,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Brand> Brands { get; set; }
     public DbSet<BrandModel> BrandModels { get; set; }
     public DbSet<Vehicle> Vehicles { get; set; }
-    public DbSet<VehicleMaintenance> VehicleMaintenances { get; set; }
+    public DbSet<VehicleMaintenances> VehicleMaintenances { get; set; }
     public DbSet<VehiclePart> VehicleParts { get; set; }
     public DbSet<StockPart> StockParts { get; set; }
 

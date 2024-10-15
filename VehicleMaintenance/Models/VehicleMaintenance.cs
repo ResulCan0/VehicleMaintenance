@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-public class VehicleMaintenance
+public class VehicleMaintenances
 {
     [Key]
     public Guid VehicleMaintenanceId { get; set; }

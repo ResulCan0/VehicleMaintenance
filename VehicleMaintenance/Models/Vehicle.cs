@@ -20,6 +20,6 @@ public class Vehicle
     public Guid CompanyId { get; set; }
     public Company Company { get; set; }
 
-    public ICollection<VehicleMaintenance> VehicleMaintenances { get; set; }
+    public ICollection<VehicleMaintenances> VehicleMaintenances { get; set; }
     public ICollection<VehiclePart> VehicleParts { get; set; }
 }
