@@ -40,7 +40,7 @@ using Microsoft.EntityFrameworkCore;
             return View(company);
         }
 
-        // GET: Company/Edit/5
+        // GET: Company/Edit/Guid
         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
@@ -56,11 +56,12 @@ using Microsoft.EntityFrameworkCore;
             return View(company);
         }
 
-        // POST: Company/Edit/5
+        // POST: Company/Edit/Guid
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Guid id, [Bind("CompanyId,CompanyName")] Company company)
         {
+         
             if (id != company.CompanyId)
             {
                 return NotFound();
@@ -89,7 +90,7 @@ using Microsoft.EntityFrameworkCore;
             return View(company);
         }
 
-        // GET: Company/Delete/5
+        // GET: Company/Delete/Guid
         public async Task<IActionResult> Delete(Guid? id)
         {
             if (id == null)
@@ -122,5 +123,22 @@ using Microsoft.EntityFrameworkCore;
         {
             return _context.Companies.Any(e => e.CompanyId == id);
         }
+    // GET: Company/Details/Guid
+    public async Task<IActionResult> Details(Guid? id)
+    {
+        if (id == null)
+        {
+            return NotFound();
+        }
+
+        var company = await _context.Companies
+            .FirstOrDefaultAsync(m => m.CompanyId == id);
+        if (company == null)
+        {
+            return NotFound();
+        }
+
+        return View(company);
     }
+}
 

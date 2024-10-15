@@ -9,5 +9,5 @@ public class Company
     [MaxLength(50)]
     public string CompanyName { get; set; }
 
-    public ICollection<Vehicle> Vehicles { get; set; }
+    public ICollection<Vehicle>? Vehicles { get; set; }
 }

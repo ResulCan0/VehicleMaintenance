@@ -11,7 +11,10 @@ public class ApplicationDbContext : DbContext
     public DbSet<VehicleMaintenances> VehicleMaintenances { get; set; }
     public DbSet<VehiclePart> VehicleParts { get; set; }
     public DbSet<StockPart> StockParts { get; set; }
-
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+     : base(options)
+    {
+    }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // Configure relationships, keys, etc.
