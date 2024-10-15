@@ -1,0 +1,37 @@
+﻿@model IEnumerable<StockPart>
+
+@{
+    ViewBag.Title = "Stock Parts";
+}
+
+<h2>Stock Parts</h2>
+
+<table class="table table-striped table-bordered">
+    <thead class="thead-dark">
+        <tr>
+            <th>Part Name</th>
+            <th>Part Code</th>
+            <th>Part Date</th>
+            <th>Amount</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var part in Model)
+        {
+            <tr>
+                <td>@part.PartName</td>
+                <td>@part.PartCode</td>
+                <td>@part.PartDate.ToString("yyyy-MM-dd")</td>
+                <td>@part.PartAmount</td>
+                <td>
+                    <a href="/StockPart/Edit/@part.PartId" class="btn btn-primary btn-sm">Edit</a>
+                    <a href="/StockPart/Details/@part.PartId" class="btn btn-info btn-sm">Details</a>
+                    <a href="/StockPart/Delete/@part.PartId" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a href="/StockPart/Create" class="btn btn-success">Add New Stock Part</a>

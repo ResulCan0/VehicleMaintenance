@@ -1,49 +1,149 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - VehicleMaintenance</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/VehicleMaintenance.styles.css" asp-append-version="true" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - Vehicle Management</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f9;
+        }
+
+        .wrapper {
+            display: flex;
+            width: 100%;
+            align-items: stretch;
+        }
+
+        #sidebar {
+            min-width: 250px;
+            max-width: 250px;
+            background: #332;
+            color: #fff;
+            transition: all 0.3s;
+            position: fixed;
+            height: 100%;
+        }
+
+            #sidebar.active {
+                margin-left: -250px;
+            }
+
+            #sidebar .sidebar-header {
+                padding: 20px;
+                background: #0056b3;
+                text-align: center;
+            }
+
+            #sidebar ul.components {
+                padding: 20px 0;
+            }
+
+            #sidebar ul li {
+                padding: 10px;
+                text-align: left;
+            }
+
+                #sidebar ul li a {
+                    color: white;
+                    padding: 10px;
+                    display: block;
+                    font-size: 16px;
+                    text-decoration: none;
+                }
+
+                    #sidebar ul li a:hover {
+                        background: #0056b3;
+                    }
+
+                #sidebar ul li.active > a, a[aria-expanded="true"] {
+                    background: #6d7fcc;
+                }
+
+        #content {
+            width: 100%;
+            padding: 20px;
+            min-height: 100vh;
+            margin-left: 250px;
+            transition: all 0.3s;
+        }
+
+            #content.active {
+                margin-left: 0;
+            }
+
+        .btn-toggle {
+            background: transparent;
+            border: none;
+            color: black;
+            font-size: 1.5em;
+        }
+
+        footer {
+            background-color: #f8f9fa;
+            padding: 1rem 0;
+            text-align: center;
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">VehicleMaintenance</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
+
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3>Vehicle Management</h3>
             </div>
+
+            <ul class="list-unstyled components">
+                <li>
+                    <a href="/Company">Companies</a>
+                </li>
+                <li>
+                    <a href="/Brand">Brands</a>
+                </li>
+                <li>
+                    <a href="/Vehicle">Vehicles</a>
+                </li>
+                <li>
+                    <a href="/StockPart">Stock Parts</a>
+                </li>
+            </ul>
         </nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+
+        <!-- Page Content -->
+        <div id="content">
+            <button type="button" id="sidebarCollapse" class="btn-toggle">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <main role="main" class="container mt-4">
+                @RenderBody()
+            </main>
+
+            <footer class="footer">
+                <div class="container">
+                    <span class="text-muted">© 2024 Vehicle Management System</span>
+                </div>
+            </footer>
+        </div>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - VehicleMaintenance - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('active');
+                $('#content').toggleClass('active');
+            });
+        });
+    </script>
 </body>
 </html>
