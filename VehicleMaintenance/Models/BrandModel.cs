@@ -13,7 +13,7 @@ public class BrandModel
     public string Class { get; set; }
 
     public Guid BrandId { get; set; }
-    public Brand Brand { get; set; }
+    public Brand? Brand { get; set; }
 
-    public ICollection<Vehicle> Vehicles { get; set; }
+    public ICollection<Vehicle>? Vehicles { get; set; }
 }

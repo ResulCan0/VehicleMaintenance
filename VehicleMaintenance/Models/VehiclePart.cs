@@ -15,5 +15,5 @@ public class VehiclePart
     public int PartAmount { get; set; }
 
     public Guid VehicleId { get; set; }
-    public Vehicle Vehicle { get; set; }
+    public Vehicle? Vehicle { get; set; }
 }

@@ -18,5 +18,5 @@ public class VehicleMaintenances
     public decimal ChargeParts { get; set; }
 
     public Guid VehicleId { get; set; }
-    public Vehicle Vehicle { get; set; }
+    public Vehicle? Vehicle { get; set; }
 }

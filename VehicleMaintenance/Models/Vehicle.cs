@@ -15,11 +15,11 @@ public class Vehicle
     public int Year { get; set; }
 
     public Guid BrandModelId { get; set; }
-    public BrandModel BrandModel { get; set; }
+    public BrandModel? BrandModel { get; set; }
 
     public Guid CompanyId { get; set; }
-    public Company Company { get; set; }
+    public Company? Company { get; set; }
 
-    public ICollection<VehicleMaintenances> VehicleMaintenances { get; set; }
-    public ICollection<VehiclePart> VehicleParts { get; set; }
+    public ICollection<VehicleMaintenances>? VehicleMaintenances { get; set; }
+    public ICollection<VehiclePart>? VehicleParts { get; set; }
 }

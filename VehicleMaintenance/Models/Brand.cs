@@ -9,5 +9,5 @@ public class Brand
     [MaxLength(50)]
     public string BrandName { get; set; }
 
-    public ICollection<BrandModel> BrandModels { get; set; }
+    public ICollection<BrandModel>? BrandModels { get; set; }
 }
