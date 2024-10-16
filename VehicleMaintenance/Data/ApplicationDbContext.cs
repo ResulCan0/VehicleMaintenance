@@ -23,6 +23,6 @@ public class ApplicationDbContext : DbContext
       .HasOne(u => u.Company) // Kullanıcıdan şirkete bir ilişki
       .WithMany(c => c.CompanyUsers) // Şirketten kullanıcılara birden çok ilişki
       .HasForeignKey(u => u.CompanyId)
-      .OnDelete(DeleteBehavior.Restrict);
+      .OnDelete(DeleteBehavior.Restrict);//
     }
 }
