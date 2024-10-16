@@ -23,10 +23,14 @@
         <span asp-validation-for="Year" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="BrandModel.BrandId" class="control-label"></label>
-        <select asp-for="BrandModel.BrandId" class="form-control" asp-items="ViewBag.BrandId"></select>
-        <span asp-validation-for="BrandModel.BrandId" class="text-danger"></span>
+        <label asp-for="BrandModelId" class="control-label"></label>
+        <select asp-for="BrandModelId" class="form-control" asp-items="@(ViewData["BrandModelId"] as IEnumerable<SelectListItem>)">
+            <option value="">Select Brand Model</option>
+        </select>
+
+        <span asp-validation-for="BrandModelId" class="text-danger"></span>
     </div>
+
     <div class="form-group">
         <label asp-for="CompanyId" class="control-label"></label>
         <select asp-for="CompanyId" class="form-control" asp-items="ViewBag.CompanyId"></select>
