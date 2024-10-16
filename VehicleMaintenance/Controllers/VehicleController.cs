@@ -67,6 +67,14 @@ namespace VehicleMaintenance.Controllers
         // GET: Vehicle/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
+            ViewData["BrandModelId"] = new SelectList(
+          _context.BrandModels.Include(b => b.Brand), // Brand ile dahil et
+          "BrandModelId",
+          "BrandModelText"
+           );
+
+            //ViewData["BrandModelId"] = new SelectList(_context.BrandModels, "BrandModel.BrandId", "BrandName");//hatalı şuanda aktif değil
+            ViewData["CompanyId"] = new SelectList(_context.Companies, "CompanyId", "CompanyName");
             if (id == null)
             {
                 return NotFound();
@@ -83,7 +91,7 @@ namespace VehicleMaintenance.Controllers
         // POST: Vehicle/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("VehicleId,PlateNumber,VehicleType,Year,BrandId,CompanyId")] Vehicle vehicle)
+        public async Task<IActionResult> Edit(Guid id, [Bind("VehicleId,PlateNumber,VehicleType,Year,BrandModelId,CompanyId")] Vehicle vehicle)
         {
             if (id != vehicle.VehicleId)
             {
