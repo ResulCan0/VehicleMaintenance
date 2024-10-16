@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 public class User
 {
@@ -22,9 +23,10 @@ public class User
     public string PhoneNumber { get; set; }  // Kullanıcı telefon numarası
 
     [Required]
-    public string Password { get; set; }  // Şifre (hashlenmiş)
+    public string? Password { get; set; }  // Şifre (hashlenmiş)
 
     public bool IsActive { get; set; }  // Kullanıcı aktif/pasif durumu
-
-    public ICollection<CompanyUser>? CompanyUsers { get; set; }  // Kullanıcının çalıştığı şirketler
+    
+    public Guid CompanyId { get; set; } // Yabancı anahtar
+    public Company? Company { get; set; }
 }

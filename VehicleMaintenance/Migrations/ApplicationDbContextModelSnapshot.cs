@@ -87,31 +87,6 @@ namespace VehicleMaintenance.Migrations
                     b.ToTable("Companies");
                 });
 
-            modelBuilder.Entity("CompanyUser", b =>
-                {
-                    b.Property<Guid>("CompanyUserId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("CompanyId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Role")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("CompanyUserId");
-
-                    b.HasIndex("CompanyId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("CompanyUser");
-                });
-
             modelBuilder.Entity("StockPart", b =>
                 {
                     b.Property<Guid>("PartId")
@@ -145,6 +120,9 @@ namespace VehicleMaintenance.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("CompanyId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -173,6 +151,8 @@ namespace VehicleMaintenance.Migrations
                         .HasColumnType("nvarchar(15)");
 
                     b.HasKey("UserId");
+
+                    b.HasIndex("CompanyId");
 
                     b.ToTable("CompanyUsers");
                 });
@@ -285,23 +265,15 @@ namespace VehicleMaintenance.Migrations
                     b.Navigation("Brand");
                 });
 
-            modelBuilder.Entity("CompanyUser", b =>
+            modelBuilder.Entity("User", b =>
                 {
                     b.HasOne("Company", "Company")
                         .WithMany("CompanyUsers")
                         .HasForeignKey("CompanyId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("User", "User")
-                        .WithMany("CompanyUsers")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Company");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Vehicle", b =>
@@ -360,11 +332,6 @@ namespace VehicleMaintenance.Migrations
                     b.Navigation("CompanyUsers");
 
                     b.Navigation("Vehicles");
-                });
-
-            modelBuilder.Entity("User", b =>
-                {
-                    b.Navigation("CompanyUsers");
                 });
 
             modelBuilder.Entity("Vehicle", b =>

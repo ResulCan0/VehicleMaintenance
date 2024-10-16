@@ -12,12 +12,17 @@ public class ApplicationDbContext : DbContext
     public DbSet<VehiclePart> VehicleParts { get; set; }
     public DbSet<StockPart> StockParts { get; set; }
     public DbSet<User> CompanyUsers { get; set; }
+    
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
      : base(options)
     {
     }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // Configure relationships, keys, etc.
+       modelBuilder.Entity<User>()
+      .HasOne(u => u.Company) // Kullanıcıdan şirkete bir ilişki
+      .WithMany(c => c.CompanyUsers) // Şirketten kullanıcılara birden çok ilişki
+      .HasForeignKey(u => u.CompanyId)
+      .OnDelete(DeleteBehavior.Restrict);
     }
 }

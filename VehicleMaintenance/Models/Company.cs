@@ -17,6 +17,6 @@ public class Company
 
     public ICollection<Vehicle>? Vehicles { get; set; }
     
-    public ICollection<CompanyUser>? CompanyUsers { get; set; } // Şirkete bağlı kullanıcılar
+    public ICollection<User>? CompanyUsers { get; set; } // Şirkete bağlı kullanıcılar
 }
 

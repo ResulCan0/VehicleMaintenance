@@ -1,67 +1,78 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
-public class UserController : Controller
+public class UsersController : Controller
 {
     private readonly ApplicationDbContext _context;
 
-    public UserController(ApplicationDbContext context)
+    public UsersController(ApplicationDbContext context)
     {
         _context = context;
     }
 
-    // GET: User
+    // GET: Users
     public async Task<IActionResult> Index()
     {
-        var users = await _context.CompanyUsers.Include(u => u.CompanyUsers).ThenInclude(cu => cu.Company).ToListAsync();
+        var users = await _context.CompanyUsers
+            .Include(u => u.Company) // Şirket bilgilerini dahil et
+            .ToListAsync();
         return View(users);
     }
 
-    // GET: User/Create
+    // GET: Users/Create
     public IActionResult Create()
     {
+        ViewData["CompanyId"] = new SelectList(_context.Companies, "CompanyId", "CompanyName");
         return View();
     }
 
-    // POST: User/Create
+    // POST: Users/Create
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("UserId,FirstName,LastName,Email,PhoneNumber,PasswordHash,IsActive")] User user)
+    public async Task<IActionResult> Create([Bind("FirstName,LastName,Email,PhoneNumber,Password,IsActive,CompanyId")] User user)
     {
         if (ModelState.IsValid)
         {
+            // Burada CompanyId'nin geçerli olup olmadığını kontrol edebilirsiniz.
+            if (!_context.Companies.Any(c => c.CompanyId == user.CompanyId))
+            {
+                ModelState.AddModelError("CompanyId", "Seçilen şirket geçersiz.");
+                ViewData["CompanyId"] = new SelectList(_context.Companies, "CompanyId", "CompanyName", user.CompanyId);
+                return View(user);
+            }
+
+            user.UserId = Guid.NewGuid();
             _context.Add(user);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+        ViewData["CompanyId"] = new SelectList(_context.Companies, "CompanyId", "CompanyName", user.CompanyId);
         return View(user);
     }
 
-    // GET: User/Edit/5
+
+    // GET: Users/Edit/5
     public async Task<IActionResult> Edit(Guid? id)
     {
-        if (id == null)
-        {
-            return NotFound();
-        }
+        if (id == null) return NotFound();
 
         var user = await _context.CompanyUsers.FindAsync(id);
-        if (user == null)
-        {
-            return NotFound();
-        }
+        if (user == null) return NotFound();
+
+        ViewData["CompanyId"] = new SelectList(_context.Companies, "CompanyId", "CompanyName", user.CompanyId);
         return View(user);
     }
 
-    // POST: User/Edit/5
+    // POST: Users/Edit/5
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(Guid id, [Bind("UserId,FirstName,LastName,Email,PhoneNumber,PasswordHash,IsActive")] User user)
+    public async Task<IActionResult> Edit(Guid id, [Bind("UserId,FirstName,LastName,Email,PhoneNumber,Password,IsActive,CompanyId")] User user)
     {
-        if (id != user.UserId)
-        {
-            return NotFound();
-        }
+        if (id != user.UserId) return NotFound();
 
         if (ModelState.IsValid)
         {
@@ -72,39 +83,29 @@ public class UserController : Controller
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserExists(user.UserId))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                if (!UserExists(user.UserId)) return NotFound();
+                else throw;
             }
             return RedirectToAction(nameof(Index));
         }
+        ViewData["CompanyId"] = new SelectList(_context.Companies, "CompanyId", "CompanyName", user.CompanyId);
         return View(user);
     }
 
-    // GET: User/Delete/5
+    // GET: Users/Delete/5
     public async Task<IActionResult> Delete(Guid? id)
     {
-        if (id == null)
-        {
-            return NotFound();
-        }
+        if (id == null) return NotFound();
 
         var user = await _context.CompanyUsers
+            .Include(u => u.Company)
             .FirstOrDefaultAsync(m => m.UserId == id);
-        if (user == null)
-        {
-            return NotFound();
-        }
+        if (user == null) return NotFound();
 
         return View(user);
     }
 
-    // POST: User/Delete/5
+    // POST: Users/Delete/5
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)

@@ -28,7 +28,9 @@ namespace VehicleMaintenance.Migrations
                 columns: table => new
                 {
                     CompanyId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CompanyName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
+                    CompanyName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    TaxNumber = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -68,6 +70,30 @@ namespace VehicleMaintenance.Migrations
                         principalTable: "Brands",
                         principalColumn: "BrandId",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CompanyUsers",
+                columns: table => new
+                {
+                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    FirstName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    PhoneNumber = table.Column<string>(type: "nvarchar(15)", maxLength: 15, nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    CompanyId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CompanyUsers", x => x.UserId);
+                    table.ForeignKey(
+                        name: "FK_CompanyUsers_Companies_CompanyId",
+                        column: x => x.CompanyId,
+                        principalTable: "Companies",
+                        principalColumn: "CompanyId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -147,6 +173,11 @@ namespace VehicleMaintenance.Migrations
                 column: "BrandId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_CompanyUsers_CompanyId",
+                table: "CompanyUsers",
+                column: "CompanyId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_VehicleMaintenances_VehicleId",
                 table: "VehicleMaintenances",
                 column: "VehicleId");
@@ -170,6 +201,9 @@ namespace VehicleMaintenance.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "CompanyUsers");
+
             migrationBuilder.DropTable(
                 name: "StockParts");
 

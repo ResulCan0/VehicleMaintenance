@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace VehicleMaintenance.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241015141520_v1.2")]
-    partial class v12
+    [Migration("20241016081839_v1")]
+    partial class v1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -77,6 +77,14 @@ namespace VehicleMaintenance.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("TaxNumber")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
+
                     b.HasKey("CompanyId");
 
                     b.ToTable("Companies");
@@ -107,6 +115,49 @@ namespace VehicleMaintenance.Migrations
                     b.HasKey("PartId");
 
                     b.ToTable("StockParts");
+                });
+
+            modelBuilder.Entity("User", b =>
+                {
+                    b.Property<Guid>("UserId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("CompanyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired()
+                        .HasMaxLength(15)
+                        .HasColumnType("nvarchar(15)");
+
+                    b.HasKey("UserId");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("CompanyUsers");
                 });
 
             modelBuilder.Entity("Vehicle", b =>
@@ -217,6 +268,17 @@ namespace VehicleMaintenance.Migrations
                     b.Navigation("Brand");
                 });
 
+            modelBuilder.Entity("User", b =>
+                {
+                    b.HasOne("Company", "Company")
+                        .WithMany("CompanyUsers")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Company");
+                });
+
             modelBuilder.Entity("Vehicle", b =>
                 {
                     b.HasOne("BrandModel", "BrandModel")
@@ -270,6 +332,8 @@ namespace VehicleMaintenance.Migrations
 
             modelBuilder.Entity("Company", b =>
                 {
+                    b.Navigation("CompanyUsers");
+
                     b.Navigation("Vehicles");
                 });
 
