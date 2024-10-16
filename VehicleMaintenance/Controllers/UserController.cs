@@ -1,43 +1,43 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-public class CompanyController : Controller
+public class UserController : Controller
 {
     private readonly ApplicationDbContext _context;
 
-    public CompanyController(ApplicationDbContext context)
+    public UserController(ApplicationDbContext context)
     {
         _context = context;
     }
 
-    // GET: Company
+    // GET: User
     public async Task<IActionResult> Index()
     {
-        var companies = await _context.Companies.Include(c => c.CompanyUsers).ToListAsync();
-        return View(companies);
+        var users = await _context.CompanyUsers.Include(u => u.CompanyUsers).ThenInclude(cu => cu.Company).ToListAsync();
+        return View(users);
     }
 
-    // GET: Company/Create
+    // GET: User/Create
     public IActionResult Create()
     {
         return View();
     }
 
-    // POST: Company/Create
+    // POST: User/Create
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("CompanyId,CompanyName,IsActive,TaxNumber")] Company company)
+    public async Task<IActionResult> Create([Bind("UserId,FirstName,LastName,Email,PhoneNumber,PasswordHash,IsActive")] User user)
     {
         if (ModelState.IsValid)
         {
-            _context.Add(company);
+            _context.Add(user);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        return View(company);
+        return View(user);
     }
 
-    // GET: Company/Edit/5
+    // GET: User/Edit/5
     public async Task<IActionResult> Edit(Guid? id)
     {
         if (id == null)
@@ -45,20 +45,20 @@ public class CompanyController : Controller
             return NotFound();
         }
 
-        var company = await _context.Companies.FindAsync(id);
-        if (company == null)
+        var user = await _context.CompanyUsers.FindAsync(id);
+        if (user == null)
         {
             return NotFound();
         }
-        return View(company);
+        return View(user);
     }
 
-    // POST: Company/Edit/5
+    // POST: User/Edit/5
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(Guid id, [Bind("CompanyId,CompanyName,IsActive,TaxNumber")] Company company)
+    public async Task<IActionResult> Edit(Guid id, [Bind("UserId,FirstName,LastName,Email,PhoneNumber,PasswordHash,IsActive")] User user)
     {
-        if (id != company.CompanyId)
+        if (id != user.UserId)
         {
             return NotFound();
         }
@@ -67,12 +67,12 @@ public class CompanyController : Controller
         {
             try
             {
-                _context.Update(company);
+                _context.Update(user);
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CompanyExists(company.CompanyId))
+                if (!UserExists(user.UserId))
                 {
                     return NotFound();
                 }
@@ -83,10 +83,10 @@ public class CompanyController : Controller
             }
             return RedirectToAction(nameof(Index));
         }
-        return View(company);
+        return View(user);
     }
 
-    // GET: Company/Delete/5
+    // GET: User/Delete/5
     public async Task<IActionResult> Delete(Guid? id)
     {
         if (id == null)
@@ -94,29 +94,29 @@ public class CompanyController : Controller
             return NotFound();
         }
 
-        var company = await _context.Companies
-            .FirstOrDefaultAsync(m => m.CompanyId == id);
-        if (company == null)
+        var user = await _context.CompanyUsers
+            .FirstOrDefaultAsync(m => m.UserId == id);
+        if (user == null)
         {
             return NotFound();
         }
 
-        return View(company);
+        return View(user);
     }
 
-    // POST: Company/Delete/5
+    // POST: User/Delete/5
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)
     {
-        var company = await _context.Companies.FindAsync(id);
-        _context.Companies.Remove(company);
+        var user = await _context.CompanyUsers.FindAsync(id);
+        _context.CompanyUsers.Remove(user);
         await _context.SaveChangesAsync();
         return RedirectToAction(nameof(Index));
     }
 
-    private bool CompanyExists(Guid id)
+    private bool UserExists(Guid id)
     {
-        return _context.Companies.Any(e => e.CompanyId == id);
+        return _context.CompanyUsers.Any(e => e.UserId == id);
     }
 }
