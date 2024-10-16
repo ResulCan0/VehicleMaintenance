@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace VehicleMaintenance.Controllers
@@ -22,6 +23,10 @@ namespace VehicleMaintenance.Controllers
         // GET: VehicleMaintenances/Create
         public IActionResult Create()
         {
+            // Create a SelectList for vehicles displaying BrandModelText and returning VehicleId
+            ViewBag.VehicleId = new SelectList(_context.Vehicles.Include(v => v.BrandModel).ThenInclude(bm => bm.Brand),
+                                               "VehicleId",
+                                               "BrandModel.BrandModelText");
             return View();
         }
 
@@ -30,6 +35,10 @@ namespace VehicleMaintenance.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("VehicleMaintenanceId,MaintenanceType,ReasonCode,Description,ChargeParts,VehicleId")] VehicleMaintenances vehicleMaintenance)
         {
+            // Create a SelectList for vehicles displaying BrandModelText and returning VehicleId
+            ViewBag.VehicleId = new SelectList(_context.Vehicles.Include(v => v.BrandModel).ThenInclude(bm => bm.Brand),
+                                               "VehicleId",
+                                               "BrandModel.BrandModelText");
             if (ModelState.IsValid)
             {
                 _context.Add(vehicleMaintenance);
@@ -42,6 +51,10 @@ namespace VehicleMaintenance.Controllers
         // GET: VehicleMaintenances/Edit/5
         public async Task<IActionResult> Edit(Guid? id)
         {
+            // Create a SelectList for vehicles displaying BrandModelText and returning VehicleId
+            ViewBag.VehicleId = new SelectList(_context.Vehicles.Include(v => v.BrandModel).ThenInclude(bm => bm.Brand),
+                                               "VehicleId",
+                                               "BrandModel.BrandModelText");
             if (id == null)
             {
                 return NotFound();

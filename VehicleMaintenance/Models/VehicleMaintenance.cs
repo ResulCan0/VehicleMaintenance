@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 public class VehicleMaintenances
 {
@@ -15,8 +17,8 @@ public class VehicleMaintenances
     [MaxLength(500)]
     public string Description { get; set; }
 
-    public decimal ChargeParts { get; set; }
-
+    public string ChargeParts { get; set; }
+  
     public Guid VehicleId { get; set; }
     public Vehicle? Vehicle { get; set; }
 }
