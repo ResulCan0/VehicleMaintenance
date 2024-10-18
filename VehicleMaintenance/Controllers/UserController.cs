@@ -18,7 +18,8 @@ public class UsersController : Controller
     public async Task<IActionResult> Index()
     {
         var users = await _context.CompanyUsers
-            .Include(u => u.Company) // Şirket bilgilerini dahil et
+            .Include(u => u.Company)
+            .Include(u => u.Roles)// Şirket bilgilerini dahil et
             .ToListAsync();
         return View(users);
     }
@@ -27,13 +28,14 @@ public class UsersController : Controller
     public IActionResult Create()
     {
         ViewData["CompanyId"] = new SelectList(_context.Companies, "CompanyId", "CompanyName");
+        ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "Roles");
         return View();
     }
 
     // POST: Users/Create
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("FirstName,LastName,Email,PhoneNumber,Password,IsActive,CompanyId")] User user)
+    public async Task<IActionResult> Create([Bind("RoleId,FirstName,LastName,Email,PhoneNumber,Password,IsActive,CompanyId")] User user)
     {
         if (ModelState.IsValid)
         {
@@ -42,6 +44,7 @@ public class UsersController : Controller
             {
                 ModelState.AddModelError("CompanyId", "Seçilen şirket geçersiz.");
                 ViewData["CompanyId"] = new SelectList(_context.Companies, "CompanyId", "CompanyName", user.CompanyId);
+                ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "Roles");
                 return View(user);
             }
 
@@ -51,6 +54,7 @@ public class UsersController : Controller
             return RedirectToAction(nameof(Index));
         }
         ViewData["CompanyId"] = new SelectList(_context.Companies, "CompanyId", "CompanyName", user.CompanyId);
+        ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "Roles");
         return View(user);
     }
 
@@ -64,13 +68,14 @@ public class UsersController : Controller
         if (user == null) return NotFound();
 
         ViewData["CompanyId"] = new SelectList(_context.Companies, "CompanyId", "CompanyName", user.CompanyId);
+        ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "Roles");
         return View(user);
     }
 
     // POST: Users/Edit/5
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(Guid id, [Bind("UserId,FirstName,LastName,Email,PhoneNumber,Password,IsActive,CompanyId")] User user)
+    public async Task<IActionResult> Edit(Guid id, [Bind("RoleId,UserId,FirstName,LastName,Email,PhoneNumber,Password,IsActive,CompanyId")] User user)
     {
         if (id != user.UserId) return NotFound();
 
@@ -89,6 +94,7 @@ public class UsersController : Controller
             return RedirectToAction(nameof(Index));
         }
         ViewData["CompanyId"] = new SelectList(_context.Companies, "CompanyId", "CompanyName", user.CompanyId);
+        ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "Roles");
         return View(user);
     }
 

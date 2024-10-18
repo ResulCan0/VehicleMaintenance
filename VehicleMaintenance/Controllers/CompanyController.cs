@@ -22,7 +22,16 @@ public class CompanyController : Controller
     {
         return View();
     }
-
+    // GET: Company/Details/5
+    public IActionResult Details(Guid id)
+    {
+        var company = _context.Companies.FirstOrDefault(c => c.CompanyId == id);
+        if (company == null)
+        {
+            return NotFound();
+        }
+        return View(company);
+    }
     // POST: Company/Create
     [HttpPost]
     [ValidateAntiForgeryToken]

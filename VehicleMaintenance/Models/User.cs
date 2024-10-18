@@ -1,11 +1,13 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using VehicleMaintenance.Models;
 
 public class User
 {
     [Key]
     public Guid UserId { get; set; }  // Kullanıcı ID'si
-
+    public Guid RoleId { get; set; }
+    public Role? Roles { get; set; }
     [Required]
     [MaxLength(50)]
     public string FirstName { get; set; }  // Kullanıcı adı
@@ -29,4 +31,5 @@ public class User
     
     public Guid CompanyId { get; set; } // Yabancı anahtar
     public Company? Company { get; set; }
+    
 }
