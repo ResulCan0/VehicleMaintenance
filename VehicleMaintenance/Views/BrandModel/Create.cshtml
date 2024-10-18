@@ -1,14 +1,14 @@
 ﻿@model BrandModel
 
 @{
-    ViewData["Title"] = "Create Brand Model";
+    ViewData["Title"] = "Marka Modeli Oluştur";
 }
 
-<h1>Create Brand Model</h1>
+<h1>Marka Modeli Oluştur</h1>
 
 <form asp-action="Create">
     <div class="form-group">
-        <label asp-for="ModelName" class="control-label"></label>
+        <label asp-for="ModelName" class="control-label">Model Adı</label>
         <input asp-for="ModelName" class="form-control" />
         <span asp-validation-for="ModelName" class="text-danger"></span>
     </div>
@@ -18,13 +18,13 @@
         <span asp-validation-for="Class" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="BrandId" class="control-label"></label>
+        <label asp-for="BrandId" class="control-label">Marka Seç</label>
         <select asp-for="BrandId" class="form-control" asp-items="ViewBag.BrandId"></select>
         <span asp-validation-for="BrandId" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <input type="submit" value="Create" class="btn btn-primary" />
-        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+        <input type="submit" value="Oluştur" class="btn btn-primary" />
+        <a asp-action="Index" class="btn btn-secondary">İptal</a>
     </div>
 </form>
 

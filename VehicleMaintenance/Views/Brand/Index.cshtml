@@ -1,16 +1,16 @@
 ﻿@model IEnumerable<Brand>
 
 @{
-    ViewBag.Title = "Brands";
+    ViewBag.Title = "Markalar";
 }
 
-<h2>Brands</h2>
+<h2>Markalar</h2>
 
 <table class="table table-striped table-bordered">
     <thead class="thead-dark">
         <tr>
-            <th>Brand Name</th>
-            <th>Actions</th>
+            <th>Marka Adı</th>
+            <th>Düzenle - Detay Gör - Sil </th>
         </tr>
     </thead>
     <tbody>
@@ -19,13 +19,13 @@
             <tr>
                 <td>@brand.BrandName</td>
                 <td>
-                    <a href="/Brand/Edit/@brand.BrandId" class="btn btn-primary btn-sm">Edit</a>
-                    <a href="/Brand/Details/@brand.BrandId" class="btn btn-info btn-sm">Details</a>
-                    <a href="/Brand/Delete/@brand.BrandId" class="btn btn-danger btn-sm">Delete</a>
+                    <a href="/Brand/Edit/@brand.BrandId" class="btn btn-primary btn-sm">Düzenle</a>
+                    <a href="/Brand/Details/@brand.BrandId" class="btn btn-info btn-sm">Detaylar</a>
+                    <a href="/Brand/Delete/@brand.BrandId" class="btn btn-danger btn-sm">Sil</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
 
-<a href="/Brand/Create" class="btn btn-success">Add New Brand</a>
+<a href="/Brand/Create" class="btn btn-success">Yeni Marka Oluştur</a>

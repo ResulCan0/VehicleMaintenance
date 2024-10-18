@@ -1,15 +1,15 @@
 ﻿@model BrandModel
 
 @{
-    ViewData["Title"] = "Edit Brand Model";
+    ViewData["Title"] = "Model Düzenle";
 }
 
-<h1>Edit Brand Model</h1>
+<h1>Model Düzenle</h1>
 
 <form asp-action="Edit">
     <input type="hidden" asp-for="BrandModelId" />
     <div class="form-group">
-        <label asp-for="ModelName" class="control-label"></label>
+        <label asp-for="ModelName" class="control-label">Model Adı</label>
         <input asp-for="ModelName" class="form-control" />
         <span asp-validation-for="ModelName" class="text-danger"></span>
     </div>
@@ -19,13 +19,13 @@
         <span asp-validation-for="Class" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="BrandId" class="control-label"></label>
+        <label asp-for="BrandId" class="control-label">Model Seç</label>
         <select asp-for="BrandId" class="form-control" asp-items="ViewBag.BrandId"></select>
         <span asp-validation-for="BrandId" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <input type="submit" value="Save" class="btn btn-primary" />
-        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+        <input type="submit" value="Kaydet" class="btn btn-primary" />
+        <a asp-action="Index" class="btn btn-secondary">İptal</a>
     </div>
 </form>
 
