@@ -1,18 +1,18 @@
 ﻿@model IEnumerable<Company>
 
 @{
-    ViewBag.Title = "Companies";
+    ViewBag.Title = "Şirketler";
 }
 
-<h2>Companies</h2>
+<h2>Şirketler</h2>
 
 <table class="table table-striped table-bordered">
     <thead class="thead-dark">
         <tr>
-            <th>Company Name</th>
-            <th>Is Active</th>
-            <th>Tax Number</th>
-            <th>Actions</th>
+            <th>Şirket Adı</th>
+            <th>Aktif</th>
+            <th>Vergi Numarası</th>
+            <th>Düzenle - Detaylar - Sil</th>
         </tr>
     </thead>
     <tbody>
@@ -23,13 +23,13 @@
                 <td>@(company.IsActive ? "Yes" : "No")</td>
                 <td>@company.TaxNumber</td>
                 <td>
-                    <a href="/Company/Edit/@company.CompanyId" class="btn btn-primary btn-sm">Edit</a>
-                    <a href="/Company/Details/@company.CompanyId" class="btn btn-info btn-sm">Details</a>
-                    <a href="/Company/Delete/@company.CompanyId" class="btn btn-danger btn-sm">Delete</a>
+                    <a href="/Company/Edit/@company.CompanyId" class="btn btn-primary btn-sm">Düzenle</a>
+                    <a href="/Company/Details/@company.CompanyId" class="btn btn-info btn-sm">Detaylar</a>
+                    <a href="/Company/Delete/@company.CompanyId" class="btn btn-danger btn-sm">Sil</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
 
-<a href="/Company/Create" class="btn btn-success">Add New Company</a>
+<a href="/Company/Create" class="btn btn-success">Yeni Şirket Ekle</a>
