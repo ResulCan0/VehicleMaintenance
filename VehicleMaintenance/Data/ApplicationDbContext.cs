@@ -14,6 +14,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<StockPart> StockParts { get; set; }
     public DbSet<User> CompanyUsers { get; set; }
     public DbSet<Role> Roles { get; set; }
+    public DbSet<CompanyModule> CompanyModules { get; set; }
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
      : base(options)
@@ -21,15 +22,20 @@ public class ApplicationDbContext : DbContext
     }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-       modelBuilder.Entity<User>()
-      .HasOne(u => u.Company) // Kullanıcıdan şirkete bir ilişki
-      .WithMany(c => c.CompanyUsers) // Şirketten kullanıcılara birden çok ilişki
-      .HasForeignKey(u => u.CompanyId)
-      .OnDelete(DeleteBehavior.Restrict);//
+        modelBuilder.Entity<User>()
+       .HasOne(u => u.Company) // Kullanıcıdan şirkete bir ilişki
+       .WithMany(c => c.CompanyUsers) // Şirketten kullanıcılara birden çok ilişki
+       .HasForeignKey(u => u.CompanyId)
+       .OnDelete(DeleteBehavior.Restrict);
         modelBuilder.Entity<User>()
         .HasOne(u => u.Roles)  // Kullanıcıdan role bir ilişki
         .WithMany(r => r.Users)  // Role'den kullanıcılara birden çok ilişki
         .HasForeignKey(u => u.RoleId)
+        .OnDelete(DeleteBehavior.Restrict);
+        modelBuilder.Entity<CompanyModule>()
+        .HasOne(u => u.Company)
+        .WithMany(c => c.CompanyModules)
+        .HasForeignKey(u => u.CompanyId)
         .OnDelete(DeleteBehavior.Restrict);
     }
 }
