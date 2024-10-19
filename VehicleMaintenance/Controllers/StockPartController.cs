@@ -14,25 +14,27 @@ public class StockPartController : Controller
     {
         return View(await _context.StockParts.ToListAsync());
     }
-    // GET: StockPart/Create
+    [HttpGet]
     public IActionResult Create()
     {
         return View();
     }
-
-    // POST: StockPart/Create
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("StockPartId,PartName,StockQuantity")] StockPart stockPart)
+    public IActionResult Create(StockPart stockPart)
     {
         if (ModelState.IsValid)
         {
-            _context.Add(stockPart);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            stockPart.PartId = Guid.NewGuid(); // Generate new GUID for the PartId
+            _context.StockParts.Add(stockPart);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
         }
+
+        // If the model state is not valid, redisplay the form
         return View(stockPart);
     }
+
     public async Task<IActionResult> Details(Guid id)
     {
         var stockPart = await _context.StockParts.FindAsync(id);
