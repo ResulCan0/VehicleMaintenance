@@ -14,6 +14,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<StockPart> StockParts { get; set; }
     public DbSet<User> CompanyUsers { get; set; }
     public DbSet<Role> Roles { get; set; }
+    public DbSet<CompanyModule> CompanyModules { get; set; }
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
      : base(options)
