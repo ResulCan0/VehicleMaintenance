@@ -1,61 +1,68 @@
 ﻿@model User
 
-<h2>Create New User</h2>
+<style>
+    .custom-checkbox {
+        transform: scale(1.5); /* Checkbox boyutunu büyütür */
+        margin-left: 10px; /* Checkbox ile etiket arasındaki boşluğu ayarlar */
+        /*vertical-align: middle; /* Checkbox'ı etiket ile aynı hizaya getirir */
+    }
+</style>
+<h2>Yeni Kullanıcı Oluştur</h2>
 
 <form asp-action="Create">
     <div class="form-group">
-        <label asp-for="FirstName" class="control-label"></label>
+        <label asp-for="FirstName" class="control-label">Adı</label>
         <input asp-for="FirstName" class="form-control" />
         <span asp-validation-for="FirstName" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="LastName" class="control-label"></label>
+        <label asp-for="LastName" class="control-label">Soyadı</label>
         <input asp-for="LastName" class="form-control" />
         <span asp-validation-for="LastName" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="RoleId" class="control-label"></label>
+        <label asp-for="RoleId" class="control-label">Rol</label>
         <select asp-for="RoleId" class="form-control" asp-items="ViewBag.RoleId"></select>
         <span asp-validation-for="RoleId" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="Email" class="control-label"></label>
+        <label asp-for="Email" class="control-label">Mail Adresi</label>
         <input asp-for="Email" class="form-control" />
         <span asp-validation-for="Email" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label asp-for="PhoneNumber" class="control-label"></label>
+        <label asp-for="PhoneNumber" class="control-label">Telefon Numarası</label>
         <input asp-for="PhoneNumber" class="form-control" />
         <span asp-validation-for="PhoneNumber" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label asp-for="Password" class="control-label"></label>
+        <label asp-for="Password" class="control-label">Şifre</label>
         <input asp-for="Password" class="form-control" type="password" />
         <span asp-validation-for="Password" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label asp-for="IsActive" class="control-label">Active</label>
-        <input asp-for="IsActive" class="form-control" />
+        <label asp-for="IsActive" class="control-label">Aktif</label>
+        <input asp-for="IsActive" class="form-check-input d-inline custom-checkbox" />
         <span asp-validation-for="IsActive" class="text-danger"></span>
     </div>
 
     <!-- Şirket seçimi için dropdown -->
     <div class="form-group">
-        <label asp-for="CompanyId" class="control-label">Select Company</label>
+        <label asp-for="CompanyId" class="control-label">Şirket Seç</label>
         <select asp-for="CompanyId" class="form-control" asp-items="ViewBag.CompanyId"></select>
         <span asp-validation-for="CompanyId" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <input type="submit" value="Create" class="btn btn-primary" />
+        <input type="submit" value="Oluştur" class="btn btn-primary" />
     </div>
 </form>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index">Listeye Geri Dön</a>
 </div>
 
 @section Scripts {
