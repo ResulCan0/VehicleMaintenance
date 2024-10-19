@@ -19,6 +19,6 @@ public class Company
     
     public ICollection<User>? CompanyUsers { get; set; } // Şirkete bağlı kullanıcılar
 
-    public ICollection<CompanyModule> CompanyModules { get; set; } //  Şirketin kullanabileceği modüller
+    public ICollection<CompanyModule>? CompanyModules { get; set; } //  Şirketin kullanabileceği modüller
 }
 
