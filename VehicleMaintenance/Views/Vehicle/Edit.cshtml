@@ -9,22 +9,22 @@
 <form asp-action="Edit">
     <input type="hidden" asp-for="VehicleId" />
     <div class="form-group">
-        <label asp-for="PlateNumber" class="control-label"></label>
+        <label asp-for="PlateNumber" class="control-label">Plaka No</label>
         <input asp-for="PlateNumber" class="form-control" />
         <span asp-validation-for="PlateNumber" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="VehicleType" class="control-label"></label>
+        <label asp-for="VehicleType" class="control-label">Araç Tipi</label>
         <input asp-for="VehicleType" class="form-control" />
         <span asp-validation-for="VehicleType" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="Year" class="control-label"></label>
+        <label asp-for="Year" class="control-label">Yıl</label>
         <input asp-for="Year" class="form-control" />
         <span asp-validation-for="Year" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="BrandModelId" class="control-label"></label>
+        <label asp-for="BrandModelId" class="control-label">Marka Seç</label>
         <select asp-for="BrandModelId" class="form-control" asp-items="@(ViewData["BrandModelId"] as IEnumerable<SelectListItem>)">
             <option value="">Select Brand Model</option>
         </select>
@@ -32,13 +32,13 @@
         <span asp-validation-for="BrandModelId" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="CompanyId" class="control-label"></label>
+        <label asp-for="CompanyId" class="control-label">Şirket Seç</label>
         <select asp-for="CompanyId" class="form-control" asp-items="ViewBag.CompanyId"></select>
         <span asp-validation-for="CompanyId" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <input type="submit" value="Save" class="btn btn-primary" />
-        <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+        <input type="submit" value="Kaydet" class="btn btn-primary" />
+        <a asp-action="Index" class="btn btn-secondary">İptal</a>
     </div>
 </form>
 

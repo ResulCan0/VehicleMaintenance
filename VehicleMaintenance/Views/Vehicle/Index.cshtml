@@ -1,24 +1,20 @@
 ﻿@model IEnumerable<Vehicle>
 
 @{
-    ViewData["Title"] = "Vehicles";
+    ViewData["Title"] = "Araçlar";
 }
 
-<h1>Vehicles</h1>
+<h1>Araçlar</h1>
 
-<p>
-    <a asp-action="Create" class="btn btn-primary">Create New Vehicle</a>
-</p>
-
-<table class="table">
-    <thead>
+<table class="table table-striped table-bordered">
+    <thead class="thead-dark">
         <tr>
-            <th>@Html.DisplayNameFor(model => model.First().PlateNumber)</th>
-            <th>@Html.DisplayNameFor(model => model.First().VehicleType)</th>
-            <th>@Html.DisplayNameFor(model => model.First().Year)</th>
-            <th>@Html.DisplayNameFor(model => model.First().BrandModel.Brand.BrandName)</th>
-            <th>@Html.DisplayNameFor(model => model.First().Company.CompanyName)</th>
-            <th></th>
+            <th>Plaka No</th>
+            <th>Araç Tipi</th>
+            <th>Yıl</th>
+            <th>Marka</th>
+            <th>Şirket</th>
+            <th>Düzenle - Detaylar - Sil</th>
         </tr>
     </thead>
     <tbody>
@@ -31,10 +27,13 @@
                 <td>@Html.DisplayFor(modelItem => item.BrandModel.Brand.BrandName)</td>
                 <td>@Html.DisplayFor(modelItem => item.Company.CompanyName)</td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.VehicleId" class="btn btn-warning">Edit</a> |
-                    <a asp-action="Delete" asp-route-id="@item.VehicleId" class="btn btn-danger">Delete</a>
+                    <a href="/Vehicle/Edit/@item.VehicleId" class="btn btn-primary btn-sm">Düzenle</a>
+                    <a href="/Vehicle/Details/@item.VehicleId" class="btn btn-info btn-sm">Detaylar</a>
+                    <a href="/Vehicle/Delete/@item.VehicleId" class="btn btn-danger btn-sm">Sil</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+<a href="/Vehicle/Create" class="btn btn-success">Araç Ekle</a>

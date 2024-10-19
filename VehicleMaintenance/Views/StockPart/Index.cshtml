@@ -1,21 +1,21 @@
 ﻿@model IEnumerable<StockPart>
 
 @{
-    ViewData["Title"] = "Parça Stokları";
+    ViewData["Title"] = "Stok Listesi";
 }
 
-<h2>Stok Parçaları</h2>
+<h2>Stok Listesi</h2>
 
 
-<table class="table">
-    <thead>
+<table class="table table-striped table-bordered">
+    <thead class="thead-dark">
         <tr>
-            <th>Part Number</th>
-            <th>Part Name</th>
-            <th>Part Date</th>
-            <th>Part Amount</th>
-            <th>Stock Quantity</th> <!-- Display the stock quantity -->
-            <th></th>
+            <th>Parça Numarası</th>
+            <th>Parça Ad</th>
+            <th>Parça Tarih</th>
+            <th>Parça Fiyat</th>
+            <th>Stok Miktar</th> <!-- Display the stock quantity -->
+            <th>Düzenle - Detaylar - Sil</th>
         </tr>
     </thead>
     <tbody>
@@ -28,13 +28,13 @@
                 <td>@item.PartAmount</td>
                 <td>@item.StockQuantity</td> <!-- Display the stock quantity -->
                 <td>
-                    <a asp-action="Details" asp-route-id="@item.PartId">Details</a> |
-                    <a asp-action="Edit" asp-route-id="@item.PartId">Edit</a> |
-                    <a asp-action="Delete" asp-route-id="@item.PartId">Delete</a>
+                    <a href="/StockPart/Edit/@item.PartId" class="btn btn-primary btn-sm">Düzenle</a>
+                    <a href="/StockPart/Details/@item.PartId" class="btn btn-info btn-sm">Detaylar</a>
+                    <a href="/StockPart/Delete/@item.PartId" class="btn btn-danger btn-sm">Sil</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
 
-<a asp-action="Create" class="btn btn-primary">Yeni Oluştur</a>
+<a href="/StockPart/Create" class="btn btn-success">Stok Listesine Ekle</a>
