@@ -15,4 +15,7 @@ public class StockPart
     public DateTime PartDate { get; set; }
 
     public int PartAmount { get; set; }
+    [Required]
+    [Range(0, int.MaxValue, ErrorMessage = "Stok eksi olamaz.")]
+    public int StockQuantity { get; set; }
 }

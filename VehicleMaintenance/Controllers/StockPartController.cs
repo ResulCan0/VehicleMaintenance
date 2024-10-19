@@ -35,6 +35,7 @@ public class StockPartController : Controller
         return View(stockPart);
     }
 
+
     public async Task<IActionResult> Details(Guid id)
     {
         var stockPart = await _context.StockParts.FindAsync(id);

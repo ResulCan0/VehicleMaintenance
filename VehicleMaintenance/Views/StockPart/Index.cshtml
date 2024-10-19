@@ -6,13 +6,15 @@
 
 <h2>Stok Parçaları</h2>
 
+
 <table class="table">
     <thead>
         <tr>
-            <th>Parça Numarası</th>
-            <th>Parça İsmi</th>
-            <th>Parça Tarihi</th>
-            <th>Parça Fiyatı</th>
+            <th>Part Number</th>
+            <th>Part Name</th>
+            <th>Part Date</th>
+            <th>Part Amount</th>
+            <th>Stock Quantity</th> <!-- Display the stock quantity -->
             <th></th>
         </tr>
     </thead>
@@ -24,10 +26,11 @@
                 <td>@item.PartName</td>
                 <td>@item.PartDate.ToString("dd/MM/yyyy")</td>
                 <td>@item.PartAmount</td>
+                <td>@item.StockQuantity</td> <!-- Display the stock quantity -->
                 <td>
-                    <a asp-action="Details" asp-route-id="@item.PartId">Detay</a> |
-                    <a asp-action="Edit" asp-route-id="@item.PartId">Düzenle</a> |
-                    <a asp-action="Delete" asp-route-id="@item.PartId">Sil</a>
+                    <a asp-action="Details" asp-route-id="@item.PartId">Details</a> |
+                    <a asp-action="Edit" asp-route-id="@item.PartId">Edit</a> |
+                    <a asp-action="Delete" asp-route-id="@item.PartId">Delete</a>
                 </td>
             </tr>
         }

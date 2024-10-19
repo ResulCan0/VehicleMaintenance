@@ -27,6 +27,12 @@
         <input asp-for="PartAmount" class="form-control" />
         <span asp-validation-for="PartAmount" class="text-danger"></span>
     </div>
+    <!-- New input for Stock Quantity -->
+    <div class="form-group">
+        <label asp-for="StockQuantity" class="control-label"></label>
+        <input asp-for="StockQuantity" class="form-control" />
+        <span asp-validation-for="StockQuantity" class="text-danger"></span>
+    </div>
     <div class="form-group">
         <input type="submit" value="Create" class="btn btn-primary" />
         <a asp-action="Index" class="btn btn-secondary">Back to List</a>
