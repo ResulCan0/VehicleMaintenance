@@ -28,7 +28,7 @@ public class UsersController : Controller
     public IActionResult Create()
     {
         ViewData["CompanyId"] = new SelectList(_context.Companies, "CompanyId", "CompanyName");
-        ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "Roles");
+        ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "RoleName");
         return View();
     }
 
@@ -44,7 +44,7 @@ public class UsersController : Controller
             {
                 ModelState.AddModelError("CompanyId", "Seçilen şirket geçersiz.");
                 ViewData["CompanyId"] = new SelectList(_context.Companies, "CompanyId", "CompanyName", user.CompanyId);
-                ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "Roles");
+                ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "RoleName");
                 return View(user);
             }
 
@@ -54,7 +54,7 @@ public class UsersController : Controller
             return RedirectToAction(nameof(Index));
         }
         ViewData["CompanyId"] = new SelectList(_context.Companies, "CompanyId", "CompanyName", user.CompanyId);
-        ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "Roles");
+        ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "RoleName");
         return View(user);
     }
 
@@ -68,7 +68,7 @@ public class UsersController : Controller
         if (user == null) return NotFound();
 
         ViewData["CompanyId"] = new SelectList(_context.Companies, "CompanyId", "CompanyName", user.CompanyId);
-        ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "Roles");
+        ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "RoleName");
         return View(user);
     }
 
@@ -94,7 +94,7 @@ public class UsersController : Controller
             return RedirectToAction(nameof(Index));
         }
         ViewData["CompanyId"] = new SelectList(_context.Companies, "CompanyId", "CompanyName", user.CompanyId);
-        ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "Roles");
+        ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "RoleName");
         return View(user);
     }
 
