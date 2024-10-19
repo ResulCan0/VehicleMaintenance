@@ -11,4 +11,6 @@
 
         [Required]
         public int ModuleCode { get; set; }
+        public Guid? CompanyId { get; set; } 
+        public ICollection<Company>? Company { get; set; } 
     }
