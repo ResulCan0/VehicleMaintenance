@@ -1,4 +1,14 @@
 ﻿@model User
+@{
+    ViewData["Title"] = "Kullanıcı Düzenle";
+}
+<style>
+    .custom-checkbox {
+        transform: scale(1.5); /* Checkbox boyutunu büyütür */
+        margin-left: 10px; /* Checkbox ile etiket arasındaki boşluğu ayarlar */
+        /*vertical-align: middle; /* Checkbox'ı etiket ile aynı hizaya getirir */
+    }
+</style>
 
 <h2>Kullanıcı Düzenle</h2>
 
@@ -29,7 +39,7 @@
 
     <div class="form-group">
         <label asp-for="IsActive" class="control-label">Aktif</label>
-        <input asp-for="IsActive" class="form-control" />
+        <input asp-for="IsActive" class="form-check-input d-inline custom-checkbox" />
         <span asp-validation-for="IsActive" class="text-danger"></span>
     </div>
 
