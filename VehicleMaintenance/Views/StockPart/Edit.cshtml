@@ -1,47 +1,47 @@
 ﻿@model StockPart
 
 @{
-    ViewData["Title"] = "Edit Stock Part";
+    ViewData["Title"] = "Stok Parçası Düzenle";
 }
 
-<h2>Edit Stock Part</h2>
+<h2>Stok Parçası Düzenle</h2>
 
 <form asp-action="Edit" method="post">
     <input type="hidden" asp-for="PartId" />
 
     <div class="form-group">
-        <label asp-for="PartNumber" class="control-label"></label>
+        <label asp-for="PartNumber" class="control-label">Parça Numarası</label>
         <input asp-for="PartNumber" class="form-control" />
         <span asp-validation-for="PartNumber" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label asp-for="PartName" class="control-label"></label>
+        <label asp-for="PartName" class="control-label">Parça Ad</label>
         <input asp-for="PartName" class="form-control" />
         <span asp-validation-for="PartName" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label asp-for="PartDate" class="control-label"></label>
+        <label asp-for="PartDate" class="control-label">Parça Tarih</label>
         <input asp-for="PartDate" type="date" class="form-control" />
         <span asp-validation-for="PartDate" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label asp-for="PartAmount" class="control-label"></label>
+        <label asp-for="PartAmount" class="control-label">Parça Fiyat</label>
         <input asp-for="PartAmount" class="form-control" />
         <span asp-validation-for="PartAmount" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label asp-for="StockQuantity" class="control-label"></label>
+        <label asp-for="StockQuantity" class="control-label">Stok Miktarı</label>
         <input asp-for="StockQuantity" class="form-control" />
         <span asp-validation-for="StockQuantity" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <input type="submit" value="Save Changes" class="btn btn-primary" />
-        <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+        <input type="submit" value="Kaydet" class="btn btn-primary" />
+        <a asp-action="Index" class="btn btn-secondary">Listeye Geri Dön</a>
     </div>
 </form>
 

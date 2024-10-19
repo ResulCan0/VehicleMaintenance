@@ -1,24 +1,20 @@
 ﻿@model IEnumerable<VehicleMaintenances>
 
 @{
-    ViewData["Title"] = "Vehicle Maintenances";
+    ViewData["Title"] = "Araç Bakımları";
 }
 
-<h1>Vehicle Maintenances</h1>
+<h1>Araç Bakımları</h1>
 
-<p>
-    <a asp-action="Create" class="btn btn-primary">Create New Maintenance</a>
-</p>
-
-<table class="table">
-    <thead>
+<table class="table table-striped table-bordered">
+    <thead class="thead-dark">
         <tr>
-            <th>@Html.DisplayNameFor(model => model.First().MaintenanceType)</th>
-            <th>@Html.DisplayNameFor(model => model.First().ReasonCode)</th>
-            <th>@Html.DisplayNameFor(model => model.First().Description)</th>
-            <th>@Html.DisplayNameFor(model => model.First().ChargeParts)</th>
-            <th>@Html.DisplayNameFor(model => model.First().Vehicle.PlateNumber)</th>
-            <th></th>
+            <th>Bakım Tipi</th>
+            <th>Nedeni</th>
+            <th>Açıklama</th>
+            <th>Değişen Parça</th>
+            <th>Plaka No</th>
+            <th>Düzenle - Detaylar - Sil</th>
         </tr>
     </thead>
     <tbody>
@@ -31,10 +27,13 @@
                 <td>@Html.DisplayFor(modelItem => item.ChargeParts)</td>
                 <td>@Html.DisplayFor(modelItem => item.Vehicle.PlateNumber)</td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.VehicleMaintenanceId" class="btn btn-warning">Edit</a> |
-                    <a asp-action="Delete" asp-route-id="@item.VehicleMaintenanceId" class="btn btn-danger">Delete</a>
+                    <a href="/VehicleMaintenances/Edit/@item.VehicleMaintenanceId" class="btn btn-primary btn-sm">Düzenle</a>
+                    <a href="/VehicleMaintenances/Details/@item.VehicleMaintenanceId" class="btn btn-info btn-sm">Detaylar</a>
+                    <a href="/VehicleMaintenances/Delete/@item.VehicleMaintenanceId" class="btn btn-danger btn-sm">Sil</a>
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
+<a href="/VehicleMaintenances/Create" class="btn btn-success">Bakım Ekle</a>
