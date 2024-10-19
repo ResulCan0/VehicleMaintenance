@@ -1,0 +1,32 @@
+﻿@model IEnumerable<CompanyModule>
+
+@{
+    ViewData["Title"] = "Modüller";
+}
+
+<h1>Modüller</h1>
+
+<table class="table table-striped table-bordered">
+    <thead class="thead-dark">
+        <tr>
+            <th>Modül Adı</th>
+            <th>Modül Kodu</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.ModuleName)</td>
+                <td>@Html.DisplayFor(modelItem => item.ModuleCode)</td>
+                <td>
+                    <a href="/Vehicle/Edit/@item.ModuleId" class="btn btn-primary btn-sm">Düzenle</a>
+                    <a href="/Vehicle/Details/@item.ModuleId" class="btn btn-info btn-sm">Detaylar</a>
+                    <a href="/Vehicle/Delete/@item.ModuleId" class="btn btn-danger btn-sm">Sil</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a href="/Vehicle/Create" class="btn btn-success">Modül Ekle</a>
