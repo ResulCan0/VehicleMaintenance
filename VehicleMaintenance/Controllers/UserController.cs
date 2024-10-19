@@ -24,6 +24,17 @@ public class UsersController : Controller
         return View(users);
     }
 
+    // GET: Users/Details/5
+    public IActionResult Details(Guid id)
+    {
+        var users = _context.CompanyUsers.FirstOrDefault(c => c.UserId == id);
+        if (users == null)
+        {
+            return NotFound();
+        }
+        return View(users);
+    }
+
     // GET: Users/Create
     public IActionResult Create()
     {

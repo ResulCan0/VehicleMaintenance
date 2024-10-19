@@ -1,5 +1,7 @@
 ﻿@model User
-
+@{
+    ViewData["Title"] = "Yeni Kullanıcı Oluştur";
+}
 <style>
     .custom-checkbox {
         transform: scale(1.5); /* Checkbox boyutunu büyütür */
@@ -49,7 +51,7 @@
         <span asp-validation-for="IsActive" class="text-danger"></span>
     </div>
 
-    <!-- Şirket seçimi için dropdown -->
+    <!-- Şirket seçimi için dropdown bekle yine oluşturucam -->
     <div class="form-group">
         <label asp-for="CompanyId" class="control-label">Şirket Seç</label>
         <select asp-for="CompanyId" class="form-control" asp-items="ViewBag.CompanyId"></select>
