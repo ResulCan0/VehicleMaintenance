@@ -56,18 +56,37 @@ public class StockPartController : Controller
         return View(stockPart);
     }
 
+
     [HttpPost]
-    public async Task<IActionResult> Edit(StockPart stockPart)
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(Guid id, [Bind("PartId,PartNumber,PartName,PartDate,PartAmount,StockQuantity")] StockPart stockPart)
     {
+        if (id != stockPart.PartId) return NotFound();
+
         if (ModelState.IsValid)
         {
-            _context.Update(stockPart);
-            await _context.SaveChangesAsync();
+            try
+            {
+               
+                _context.Update(stockPart);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!_context.StockParts.Any(e => e.PartId == id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
             return RedirectToAction(nameof(Index));
         }
         return View(stockPart);
     }
-
+    [HttpGet]
     public async Task<IActionResult> Delete(Guid id)
     {
         var stockPart = await _context.StockParts.FindAsync(id);
