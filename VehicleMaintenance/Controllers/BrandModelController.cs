@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Reflection;
 
 namespace VehicleMaintenance.Controllers
 {
@@ -15,10 +16,11 @@ namespace VehicleMaintenance.Controllers
         {
             _context = context;
         }
-
+   
         // GET: BrandModel
         public async Task<IActionResult> Index()
         {
+        
             var brandModels = _context.BrandModels.Include(b => b.Brand);
             return View(await brandModels.ToListAsync());
         }

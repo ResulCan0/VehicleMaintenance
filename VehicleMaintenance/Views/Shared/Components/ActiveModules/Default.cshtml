@@ -1,0 +1,11 @@
+﻿@model List<Module>
+
+@if (Model != null && Model.Any())
+{
+    foreach (var module in Model)
+    {
+        <li>
+            <a href="/@module.ModuleName/Index">@module.ModuleNameTR</a>
+        </li>
+    }
+}

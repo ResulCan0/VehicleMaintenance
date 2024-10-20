@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+
 
 public class CompanyController : Controller
 {
@@ -13,7 +15,10 @@ public class CompanyController : Controller
     // GET: Company
     public async Task<IActionResult> Index()
     {
-        var companies = await _context.Companies.Include(c => c.CompanyUsers).ToListAsync();
+        var companies = await _context.Companies
+        .Where(c => !c.IsDeleted) // Silinmemiş kayıtları al
+        .ToListAsync();
+
         return View(companies);
     }
 
@@ -118,10 +123,13 @@ public class CompanyController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)
     {
-        var company = await _context.Companies.FindAsync(id);
-        _context.Companies.Remove(company);
+    var company = await _context.Companies.FindAsync(id);
+    if (company != null)
+    {
+        company.IsDeleted = true; // Kaydı silmek yerine işaretle
         await _context.SaveChangesAsync();
-        return RedirectToAction(nameof(Index));
+    }
+    return RedirectToAction(nameof(Index));
     }
 
     private bool CompanyExists(Guid id)

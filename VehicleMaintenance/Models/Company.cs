@@ -14,7 +14,7 @@ public class Company
     public string TaxNumber { get; set; } // Vergi Numarası
 
     public bool IsActive { get; set; } // Şirketin aktif olup olmadığını belirler
-
+    public bool IsDeleted { get; set; } = false;  // Yumuşak silme alanı
     public ICollection<Vehicle>? Vehicles { get; set; }
     
     public ICollection<User>? CompanyUsers { get; set; } // Şirkete bağlı kullanıcılar

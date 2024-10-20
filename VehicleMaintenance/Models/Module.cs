@@ -9,7 +9,8 @@ public class Module
     [Required]
     [MaxLength(50)]
     public string ModuleName { get; set; }
-
+    [MaxLength(50)]
+    public string ModuleNameTR { get; set; }
     [Required]
     public int ModuleCode { get; set; } // Modül kodu
 

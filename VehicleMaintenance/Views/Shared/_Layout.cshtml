@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var activeModules = ViewBag.ActiveModules as List<dynamic>; // Aktif modülleri dinamik olarak al
+    var userId = Context.Session.GetString("UserId"); // Kullanıcının oturum bilgisi
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -102,31 +107,26 @@
                 <h3>Araç Bakım Sistemi</h3>
             </div>
 
-            <ul class="list-unstyled components">
-                <li>
-                    <a href="/Company">Şirketler</a>
-                </li>
-                <li>
-                    <a href="/Users">Şirket Kullanıcıları</a>
-                </li>
-                <li>
-                    <a href="/Brand">Araç Marka</a>
 
-                </li>
+            <ul class="list-unstyled components">
+              
+                @* Kullanıcının aktif modüllerini listele *@
+                @await Component.InvokeAsync("ActiveModules")
+
+                @* Kullanıcı oturum açma durumu kontrolü *@
                 <li>
-                    <a href="/BrandModel">Araç Model</a>
-                </li>
-                <li>
-                    <a href="/Vehicle">Şirket Araçları</a>
-                </li>
-                <li>
-                    <a href="/VehicleMaintenances">Araç Bakım</a>
-                </li>
-                <li>
-                    <a href="/StockPart">Parça Stok Durumu</a>
+                    @if (string.IsNullOrEmpty(userId))
+                    {
+                        <a href="/Account/Login">Giriş Yap</a>
+                    }
+                    else
+                    {
+                        <a href="/Account/Logout">Çıkış Yap</a>
+                    }
                 </li>
             </ul>
         </nav>
+
 
         <!-- Page Content -->
         <div id="content">
