@@ -3,14 +3,16 @@
 public class CompanyModule
 {
     [Key]
+    public Guid CompanyModuleId { get; set; }
+
+    [Required]
+    public Guid CompanyId { get; set; }
+    public Company Company { get; set; }
+
+    [Required]
     public Guid ModuleId { get; set; }
+    public Module Module { get; set; }
 
-    [Required]
-    [MaxLength(50)]
-    public string ModuleName { get; set; }
-
-    [Required]
-    public int ModuleCode { get; set; }
-    public Guid? CompanyId { get; set; }
-    public Company? Company { get; set; }
+    public DateTime AssignedDate { get; set; } = DateTime.Now; // Modül atama tarihi
+    public bool IsActive { get; set; } = true; // Modül aktif mi
 }

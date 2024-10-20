@@ -15,7 +15,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<User> CompanyUsers { get; set; }
     public DbSet<Role> Roles { get; set; }
     public DbSet<CompanyModule> CompanyModules { get; set; }
-
+    public DbSet<Module> Modules { get; set; }
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
      : base(options)
     {
@@ -37,5 +37,6 @@ public class ApplicationDbContext : DbContext
         .WithMany(c => c.CompanyModules)
         .HasForeignKey(u => u.CompanyId)
         .OnDelete(DeleteBehavior.Restrict);
+
     }
 }
