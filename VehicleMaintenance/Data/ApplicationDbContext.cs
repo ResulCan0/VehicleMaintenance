@@ -27,11 +27,13 @@ public class ApplicationDbContext : DbContext
        .WithMany(c => c.CompanyUsers) // Şirketten kullanıcılara birden çok ilişki
        .HasForeignKey(u => u.CompanyId)
        .OnDelete(DeleteBehavior.Restrict);
+
         modelBuilder.Entity<User>()
         .HasOne(u => u.Roles)  // Kullanıcıdan role bir ilişki
         .WithMany(r => r.Users)  // Role'den kullanıcılara birden çok ilişki
         .HasForeignKey(u => u.RoleId)
         .OnDelete(DeleteBehavior.Restrict);
+
         modelBuilder.Entity<CompanyModule>()
         .HasOne(u => u.Company)
         .WithMany(c => c.CompanyModules)
