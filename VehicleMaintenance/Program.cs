@@ -18,7 +18,7 @@ builder.Services.AddSession(options => {
 
 // Veritabaný baðlantýsýný yapýlandýrma
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))); // Connection string'i ayarlayýn
+    options.UseSqlServer(EncryptionService.Decrypt(builder.Configuration.GetConnectionString("DefaultConnection")))); // Connection string'i ayarlayýn
 
 var app = builder.Build();
 

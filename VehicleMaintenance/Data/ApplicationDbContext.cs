@@ -1,10 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Reflection.Emit;
 using VehicleMaintenance.Models;
 
 public class ApplicationDbContext : DbContext
 {
+    private readonly IConfiguration _configuration;
+
+    
     public DbSet<Company> Companies { get; set; }
     public DbSet<Brand> Brands { get; set; }
     public DbSet<BrandModel> BrandModels { get; set; }
@@ -16,9 +20,10 @@ public class ApplicationDbContext : DbContext
     public DbSet<Role> Roles { get; set; }
     public DbSet<CompanyModule> CompanyModules { get; set; }
     public DbSet<Module> Modules { get; set; }
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IConfiguration configuration)
      : base(options)
     {
+        _configuration = configuration;
     }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -38,5 +43,16 @@ public class ApplicationDbContext : DbContext
         .HasForeignKey(u => u.CompanyId)
         .OnDelete(DeleteBehavior.Restrict);
 
+    }
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        // application.json'dan şifrelenmiş bağlantı dizisini al
+        var encryptedConnectionString = _configuration.GetConnectionString("DefaultConnection");
+
+        // Şifrelenmiş bağlantı dizisini çöz
+        var decryptedConnectionString = EncryptionService.Decrypt(encryptedConnectionString);
+
+        // Çözülmüş bağlantı dizisini kullanarak veritabanına bağlan
+        optionsBuilder.UseSqlServer(decryptedConnectionString);
     }
 }
