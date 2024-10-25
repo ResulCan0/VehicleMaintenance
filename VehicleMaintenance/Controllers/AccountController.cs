@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace VehicleMaintenance.Controllers
         {
             _context = context;
         }
-
+      
         [HttpGet]
         public IActionResult Login()
         {
@@ -27,14 +28,18 @@ namespace VehicleMaintenance.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = _context.CompanyUsers.SingleOrDefault(u => u.Email == model.Email && u.IsActive);
+                var user = _context.CompanyUsers
+                    .Include(u => u.Roles)
+                    .SingleOrDefault(u => u.Email == model.Email && u.IsActive);
                 if (user != null)
                 {
                     if (user.Password == model.Password) // Burada hash karşılaştırması yapmanız gerekir
                     {
+                        
                         // Kullanıcıyı oturum açtır
                         HttpContext.Session.SetString("UserId", user.UserId.ToString());
                         HttpContext.Session.SetString("CompanyId", user.CompanyId.ToString());
+                        HttpContext.Session.SetString("RoleName",user.Roles.RoleName);
 
                         // Kullanıcının bağlı olduğu şirketin aktif modüllerini al
                         var activeModules = _context.CompanyModules
@@ -56,8 +61,8 @@ namespace VehicleMaintenance.Controllers
             }
             return View(model);
         }
-
-        [HttpPost]
+ 
+        [HttpGet]
         public IActionResult Logout()
         {
             // Oturumu sonlandır

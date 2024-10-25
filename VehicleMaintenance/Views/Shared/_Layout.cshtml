@@ -1,6 +1,7 @@
 ﻿@{
     var activeModules = ViewBag.ActiveModules as List<dynamic>; // Aktif modülleri dinamik olarak al
-    var userId = Context.Session.GetString("UserId"); // Kullanıcının oturum bilgisi
+    var userId = Context.Session.GetString("UserId");
+    var userRol = Context.Session.GetString("RoleName");// Kullanıcının oturum bilgisi
 }
 
 <!DOCTYPE html>
@@ -109,9 +110,39 @@
 
 
             <ul class="list-unstyled components">
-              
-                @* Kullanıcının aktif modüllerini listele *@
-                @await Component.InvokeAsync("ActiveModules")
+              @if (userRol == "ADMİN")
+                {
+                    <ul>
+                        <li>
+                            <a href="/Company/Index">Şirketler</a>
+                        </li>
+                        <li>
+                            <a href="/Users/Index">Şirket Kullanıcıları</a>
+                        </li>
+                        <li>
+                            <a href="/Brand/Index">Araç Marka</a>
+
+                        </li>
+                        <li>
+                            <a href="/BrandModel/Index">Araç Model</a>
+                        </li>
+                        <li>
+                            <a href="/Vehicle/Index">Şirket Araçları</a>
+                        </li>
+                        <li>
+                            <a href="/VehicleMaintenances/Index">Araç Bakım</a>
+                        </li>
+                        <li>
+                            <a href="/StockPart/Index">Parça Stok Durumu</a>
+                        </li>
+                    </ul>
+                  
+                }
+                else
+                {
+                    @await Component.InvokeAsync("ActiveModules")
+                }
+                
 
                 @* Kullanıcı oturum açma durumu kontrolü *@
                 <li>
@@ -141,7 +172,10 @@
 
             <footer class="footer">
                 <div class="container">
-                    <span class="text-muted">© 2024 Araç Bakım Sistemi Dümen Yazılım tarafından geliştirildi</span>
+                    <span class="text-muted">
+                        © 2024 Araç Bakım Sistemi
+                        Helm Software tarafından geliştirildi
+                    </span>
                 </div>
             </footer>
         </div>
@@ -156,6 +190,56 @@
                 $('#content').toggleClass('active');
             });
         });
+   
+        async function getUserId() {
+            try {
+                const response = await fetch('/Company/GetUserId');
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const userId = await response.text();
+                if (!userId) {
+                    console.error('UserId is null or empty');
+                }
+                return userId; 
+            } catch (error) {
+                console.error('Failed to fetch UserId:', error);
+                return null; // Hata durumunda null döner
+            }
+        }
+
+        document.addEventListener('click', async function (event) {
+            var element = event.target;
+            var elementId = element.id || "no-id";
+            var elementText = element.innerText || "no-text";
+
+            // Kullanıcı kimliğini sunucudan al
+            var userId = await getUserId();
+
+            var logData = {
+                ElementId: elementId,
+                ElementText: elementText,
+                Timestamp: new Date().toISOString(),
+                UserId: userId 
+            };
+
+            fetch('/Log/Click', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(logData)
+            }).then(response => {
+                if (response.ok) {
+                    console.log('Developing By Dümen Yazilim');
+                } else {
+                    console.error('Developing By Dümen Yazilim Not');
+                }
+            });
+        });
+
+
+
     </script>
 </body>
 </html>

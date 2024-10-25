@@ -11,7 +11,18 @@ public class CompanyController : Controller
     {
         _context = context;
     }
-
+    [HttpGet]
+    public IActionResult GetUserId()
+    {
+        var userIdString = HttpContext.Session.GetString("UserId");
+        if (string.IsNullOrEmpty(userIdString))
+        {
+            Console.WriteLine("UserId is null or empty"); // Hata günlüğü
+            return Ok(null); // Kullanıcı kimliği yoksa null döndür
+        }
+        Console.WriteLine($"UserId found: {userIdString}"); // Hata günlüğü
+        return Ok(userIdString); // Kullanıcı kimliğini döndür
+    }
     // GET: Company
     public async Task<IActionResult> Index()
     {

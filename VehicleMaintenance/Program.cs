@@ -32,13 +32,16 @@ if (!app.Environment.IsDevelopment())
 // Oturum middleware'ýný buraya taþýdýk
 app.UseSession();
 
+// Ýstek loglama middleware'ini ekleyin
+app.UseMiddleware<RequestLoggingMiddleware>();
+
 // Kullanýcý giriþ kontrolü middleware'ý
 app.Use(async (context, next) =>
 {
     var path = context.Request.Path.Value;
 
     // Giriþ yapýlmamýþsa ve giriþ sayfasý deðilse
-    if (string.IsNullOrEmpty(context.Session.GetString("UserId")) && path != "/Account/Login" && context.Request.Method != "POST")
+    if (string.IsNullOrEmpty(context.Session.GetString("UserId")) && path != "/Account/Login" && context.Request.Method != "POST" )
     {
         context.Response.Redirect("/Account/Login");
         return;
