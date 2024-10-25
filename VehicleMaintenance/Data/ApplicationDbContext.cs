@@ -20,7 +20,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Role> Roles { get; set; }
     public DbSet<CompanyModule> CompanyModules { get; set; }
     public DbSet<Module> Modules { get; set; }
-    public DbSet<ClickLog> Clicklogs { get; set; }
+    public DbSet<ClickLog> ClickLogs { get; set; }
     public DbSet<Log> Logging { get; set; }
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
      : base(options)
