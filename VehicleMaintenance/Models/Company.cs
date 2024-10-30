@@ -1,24 +1,37 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using VehicleMaintenance.Middleware;
 
 public class Company
 {
+    public Company() { }
+
+    private string _companyName;
+
     [Key]
     public Guid CompanyId { get; set; }
 
     [Required]
     [MaxLength(50)]
-    public string CompanyName { get; set; }
+    public string CompanyName
+    {
+        get => _companyName;
+        set
+        {
+            _companyName = value;
+            CompanyId = GuidCreate.GenerateGuidFromUsername(value);
+        }
+    }
 
     [Required]
     [MaxLength(15)]
-    public string TaxNumber { get; set; } // Vergi Numarası
+    public string TaxNumber { get; set; }
 
-    public bool IsActive { get; set; } // Şirketin aktif olup olmadığını belirler
-    public bool IsDeleted { get; set; } = false;  // Yumuşak silme alanı
+    public bool IsActive { get; set; }
+    public bool IsDeleted { get; set; } = false;
+
     public ICollection<Vehicle>? Vehicles { get; set; }
-    
-    public ICollection<User>? CompanyUsers { get; set; } // Şirkete bağlı kullanıcılar
-    
-    public ICollection<CompanyModule>? CompanyModules { get; set; } //Şirketin kullanabileceği modüller
+    public ICollection<User>? CompanyUsers { get; set; }
+    public ICollection<CompanyModule>? CompanyModules { get; set; }
 }
-

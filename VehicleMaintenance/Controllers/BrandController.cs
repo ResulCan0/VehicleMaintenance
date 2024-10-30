@@ -89,7 +89,7 @@ using Microsoft.EntityFrameworkCore;
             }
             return View(brand);
         }
-
+         
         // GET: Brand/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
         {

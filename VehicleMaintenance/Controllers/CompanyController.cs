@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -55,6 +56,12 @@ public class CompanyController : Controller
     {
         if (ModelState.IsValid)
         {
+            var existingCompany = await _context.Companies.FirstOrDefaultAsync(u => u.CompanyName == company.CompanyName);
+            if (existingCompany != null)
+            {
+                ModelState.AddModelError("CompanyName", "Bu şirket zaten kayıtlı.");
+                return View(company);
+            }
             _context.Add(company);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));

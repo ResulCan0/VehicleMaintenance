@@ -50,10 +50,20 @@ public class UsersController : Controller
     {
         if (ModelState.IsValid)
         {
-            // Burada CompanyId'nin geçerli olup olmadığını kontrol edebilirsiniz.
+            // Şirket ID'sinin geçerli olup olmadığını kontrol ediyoruz.
             if (!_context.Companies.Any(c => c.CompanyId == user.CompanyId))
             {
                 ModelState.AddModelError("CompanyId", "Seçilen şirket geçersiz.");
+                ViewData["CompanyId"] = new SelectList(_context.Companies, "CompanyId", "CompanyName", user.CompanyId);
+                ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "RoleName");
+                return View(user);
+            }
+
+            // Aynı e-posta adresine sahip bir kullanıcı olup olmadığını kontrol ediyoruz.
+            var existingUser = await _context.CompanyUsers.FirstOrDefaultAsync(u => u.Email == user.Email);
+            if (existingUser != null)
+            {
+                ModelState.AddModelError("Email", "Bu e-posta adresi zaten kayıtlı.");
                 ViewData["CompanyId"] = new SelectList(_context.Companies, "CompanyId", "CompanyName", user.CompanyId);
                 ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "RoleName");
                 return View(user);
@@ -64,6 +74,7 @@ public class UsersController : Controller
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+
         ViewData["CompanyId"] = new SelectList(_context.Companies, "CompanyId", "CompanyName", user.CompanyId);
         ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "RoleName");
         return View(user);
