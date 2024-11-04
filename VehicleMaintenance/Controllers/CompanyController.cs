@@ -90,11 +90,7 @@ public class CompanyController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(Guid id, [Bind("CompanyId,CompanyName,IsActive,TaxNumber")] Company company)
     {
-        if (id != company.CompanyId)
-        {
-            return NotFound();
-        }
-
+       
         if (ModelState.IsValid)
         {
             try

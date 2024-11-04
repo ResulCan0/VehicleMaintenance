@@ -20,7 +20,10 @@ public class Company
         set
         {
             _companyName = value;
-            CompanyId = GuidCreate.GenerateGuidFromUsername(value);
+            if (CompanyId == Guid.Empty)
+            {
+                CompanyId = GuidCreate.GenerateGuidFromUsername(value);
+            }
         }
     }
 
