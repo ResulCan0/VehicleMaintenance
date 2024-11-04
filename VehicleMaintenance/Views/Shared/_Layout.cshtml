@@ -1,245 +1,288 @@
 ﻿@{
     var activeModules = ViewBag.ActiveModules as List<dynamic>; // Aktif modülleri dinamik olarak al
     var userId = Context.Session.GetString("UserId");
-    var userRol = Context.Session.GetString("RoleName");// Kullanıcının oturum bilgisi
+    var userRol = Context.Session.GetString("RoleName"); // Kullanıcının oturum bilgisi
 }
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Araç Bakım Sistemi</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="~/css/media.css">
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
         }
 
-        .wrapper {
-            display: flex;
-            width: 100%;
-            align-items: stretch;
-        }
-
-        #sidebar {
-            min-width: 250px;
-            max-width: 250px;
-            background: #332;
-            color: #fff;
-            transition: all 0.3s;
-            position: fixed;
-            height: 100%;
-        }
-
-            #sidebar.active {
-                margin-left: -250px;
-            }
-
-            #sidebar .sidebar-header {
-                padding: 20px;
-                background: #0056b3;
-                text-align: center;
-            }
-
-            #sidebar ul.components {
-                padding: 20px 0;
-            }
-
-            #sidebar ul li {
-                padding: 10px;
-                text-align: left;
-            }
-
-                #sidebar ul li a {
-                    color: white;
-                    padding: 10px;
-                    display: block;
-                    font-size: 16px;
-                    text-decoration: none;
-                }
-
-                    #sidebar ul li a:hover {
-                        background: #0056b3;
-                    }
-
-                #sidebar ul li.active > a, a[aria-expanded="true"] {
-                    background: #6d7fcc;
-                }
-
-        #content {
-            width: 100%;
-            padding: 20px;
+        .sidebar {
             min-height: 100vh;
-            margin-left: 250px;
-            transition: all 0.3s;
+            background-color: #343a40;
+            color: white;
+            position: fixed;
+            width: 250px; /* Yan menü genişliği */
+            left: 0; /* Sol kenara yapışık */
+            transition: transform 0.3s ease; /* Animasyon efekti için */
+            transform: translateX(0); /* Başlangıçta görünür */
         }
 
-            #content.active {
-                margin-left: 0;
+        .sidebar.closed {
+            transform: translateX(-100%); /* Yan menü kapandığında */
+        }
+
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            padding: 15px;
+            display: block;
+            transition: background-color 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: #495057;
+        }
+
+        .content-wrapper {
+            margin-left: 250px; /* Yan menü açıkken içerik genişliği */
+            padding: 20px;
+            background-color: #f8f9fa;
+            transition: margin-left 0.3s ease; /* Animasyon efekti için */
+        }
+
+        .content-wrapper.full-width {
+            margin-left: 0; /* Yan menü kapatıldığında içerik genişliği */
+        }
+
+        media (max-width: 768px) {
+            .sidebar {
+                margin-left: -250px; /* Responsive sidebar */
             }
 
-        .btn-toggle {
-            background: transparent;
-            border: none;
-            color: black;
-            font-size: 1.5em;
+            .content-wrapper {
+                margin-left: 0; /* Content takes full width */
+            }
+        }
+
+        #toggleSidebar {
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        #toggleSidebar:hover {
+            background-color: #495057; /* Hover efekti için arka plan rengi */
+            color: white; /* Hover durumunda metin rengi */
         }
 
         footer {
             background-color: #f8f9fa;
             padding: 1rem 0;
             text-align: center;
-            width: 100%;
             position: fixed;
             bottom: 0;
+            width: calc(100% - 250px);
+            transition: width 0.3s;
         }
     </style>
 </head>
 <body>
 
-    <div class="wrapper">
-        <!-- Sidebar -->
-        <!--developed by dümenyazilim-->
-        <nav id="sidebar">
-            <div class="sidebar-header">
-                <h3>Araç Bakım Sistemi</h3>
-            </div>
-
-
-            <ul class="list-unstyled components">
-              @if (userRol == "ADMİN")
-                {
-                    <ul>
-                        <li>
-                            <a href="/Company/Index">Şirketler</a>
-                        </li>
-                        <li>
-                            <a href="/Users/Index">Şirket Kullanıcıları</a>
-                        </li>
-                        <li>
-                            <a href="/Brand/Index">Araç Marka</a>
-
-                        </li>
-                        <li>
-                            <a href="/BrandModel/Index">Araç Model</a>
-                        </li>
-                        <li>
-                            <a href="/Vehicle/Index">Şirket Araçları</a>
-                        </li>
-                        <li>
-                            <a href="/VehicleMaintenances/Index">Araç Bakım</a>
-                        </li>
-                        <li>
-                            <a href="/StockPart/Index">Parça Stok Durumu</a>
-                        </li>
-                    </ul>
-                  
-                }
-                else
-                {
-                    @await Component.InvokeAsync("ActiveModules")
-                }
-                
-
-                @* Kullanıcı oturum açma durumu kontrolü *@
-                <li>
-                    @if (string.IsNullOrEmpty(userId))
-                    {
-                        <a href="/Account/Login">Giriş Yap</a>
-                    }
-                    else
-                    {
-                        <a href="/Account/Logout">Çıkış Yap</a>
-                    }
-                </li>
-            </ul>
-        </nav>
-
-
-        <!-- Page Content -->
-        <div id="content">
-            <button type="button" id="sidebarCollapse" class="btn-toggle">
-                <i class="fas fa-bars"></i>
-            </button>
-
-            <main role="main" class="container mt-4">
-                @RenderBody()
-                @RenderSection("Scripts", required: false)
-            </main>
-
-            <footer class="footer">
-                <div class="container">
-                    <span class="text-muted">
-                        © 2024 Araç Bakım Sistemi
-                        Helm Software tarafından geliştirildi
-                    </span>
-                </div>
-            </footer>
-        </div>
+<nav class="sidebar">
+    <div class="sidebar-header text-center p-3">
+        <h5>Araç Bakım Sistemi</h5>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            $('#sidebarCollapse').on('click', function () {
-                $('#sidebar').toggleClass('active');
-                $('#content').toggleClass('active');
-            });
-        });
-   
-        async function getUserId() {
-            try {
-                const response = await fetch('/Company/GetUserId');
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                const userId = await response.text();
-                if (!userId) {
-                    console.error('UserId is null or empty');
-                }
-                return userId; 
-            } catch (error) {
-                console.error('Failed to fetch UserId:', error);
-                return null; // Hata durumunda null döner
-            }
+    <ul class="nav flex-column">
+        @if (userRol == "ADMİN")
+        {
+            <li class="nav-item">
+                <a class="nav-link" href="/Dashboard/Index">
+                    <i class="fas fa-tachometer-alt"></i> Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/Company/Index">
+                    <i class="fas fa-chart-line"></i> Şirket
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/Users/Index">
+                    <i class="fas fa-users"></i> Kullanıcılar
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/Brand/Index">
+                    <i class="fas fa-car"></i> Araç Marka
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/Vehicle/Index">
+                    <i class="fas fa-car-side"></i> Şirkete Bağlı Araçlar
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/BrandModel/Index">
+                    <i class="fas fa-car-alt"></i> Araç Model
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/VehicleMaintenances/Index">
+                    <i class="fas fa-cog"></i> Araç Bakım Paneli
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/StockPart/Index">
+                    <i class="fas fa-box"></i> Stok Parça Durumu
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/Account/Logout">
+                    <i class="fas fa-sign-out-alt"></i> Çıkış
+                </a>
+            </li>
         }
+            @if (string.IsNullOrEmpty(userId))
+            {
+                <li class="nav-item">
+                    <a class="nav-link" href="/Account/Login">
+                        <i class="fas fa-sign-out-alt"></i> Giriş Yap
+                    </a>
+                </li>
+            }
 
-        document.addEventListener('click', async function (event) {
-            var element = event.target;
-            var elementId = element.id || "no-id";
-            var elementText = element.innerText || "no-text";
+    </ul>
+</nav>
 
-            // Kullanıcı kimliğini sunucudan al
-            var userId = await getUserId();
 
-            var logData = {
-                ElementId: elementId,
-                ElementText: elementText,
-                Timestamp: new Date().toISOString(),
-                UserId: userId 
+   
+
+<main class="content-wrapper">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light mb-4">
+        <div class="container-fluid">
+            <button id="toggleSidebar" class="btn btn-outline-secondary me-2">
+                <i class="fas fa-bars"></i> Menü
+            </button>
+            <a class="navbar-brand" href="#">@ViewBag.Title</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-links" href="/Profile/Index"><i class="fas fa-user"></i> Profil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-links" href="/Notifications"><i class="fas fa-bell"></i> Bildirimler</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Scripts section render ediliyor -->
+    @RenderSection("Scripts", required: false)
+    @RenderBody()
+
+    <footer class="footer">
+        <div class="container">
+            <span class="text-muted">© 2024 Araç Bakım Sistemi - Helm Software tarafından geliştirildi</span>
+        </div>
+    </footer>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $('#toggleSidebar').click(function () {
+            $('.sidebar').toggleClass('closed'); // Yan menüyü aç/kapa
+            $('.content-wrapper').toggleClass('full-width'); // İçeriğin genişliğini ayarla
+
+            const iconMap = {
+                "false": "fas fa-bars",
+                "true": "fas fa-times"
             };
 
-            fetch('/Log/Click', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(logData)
-            }).then(response => {
-                if (response.ok) {
-                    console.log('Developing By Dümen Yazilim');
-                } else {
-                    console.error('Developing By Dümen Yazilim Not');
-                }
+            const isActive = $(this).data('active');
+            $(this).data('active', !isActive);
+            $(this).find('i').attr('class', iconMap[!isActive]);
+        });
+    });
+
+    async function getUserId() {
+        try {
+            const response = await fetch('/Company/GetUserId');
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const userId = await response.text();
+            if (!userId) {
+                console.error('UserId is null or empty');
+            }
+            return userId;
+        } catch (error) {
+            console.error('Failed to fetch UserId:', error);
+            return null; // Hata durumunda null döner
+        }
+    }
+
+    document.addEventListener('click', async function (event) {
+        var element = event.target;
+        var elementId = element.id || "no-id";
+        var elementText = element.innerText || "no-text";
+
+        // Kullanıcı kimliğini sunucudan al
+        var userId = await getUserId();
+
+        var logData = {
+            ElementId: elementId,
+            ElementText: elementText,
+            Timestamp: new Date().toISOString(),
+            UserId: userId
+        };
+
+        fetch('/Log/Click', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(logData)
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            console.log('Log recorded successfully:', logData);
+        })
+        .catch(error => {
+            console.error('Error recording log:', error);
+        });
+    });
+    </script>
+    <script>
+        $(document).ready(function () {
+            const iconMap = {
+                "Dashboard": "fas fa-tachometer-alt",
+                "Şirket": "fas fa-chart-line",
+                "Kullanıcılar": "fas fa-users",
+                "Araç Marka": "fas fa-car",
+                "Şirkete Bağlı Araçlar": "fas fa-car-side",
+                "Araç Model": "fas fa-car-alt",
+                "Araç Bakım Paneli": "fas fa-cog",
+                "Stok Parça Durumu": "fas fa-box",
+                "Çıkış": "fas fa-sign-out-alt"
+            };
+
+            $('.nav-link').each(function () {
+                const itemText = $(this).text().trim(); // Menü öğesinin metni
+                const iconClass = iconMap[itemText] || "fas fa-question"; // Varsayılan ikon
+                $(this).find('i').attr('class', iconClass); // İkon sınıfını ayarla
             });
         });
-
-
-
     </script>
 </body>
 </html>

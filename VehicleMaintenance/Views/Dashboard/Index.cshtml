@@ -1,0 +1,110 @@
+﻿@{
+    ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Layout dosyanızın adını buraya yazın
+}
+
+<div class="container-fluid">
+    <!-- Kartlar -->
+    <div class="row mb-4">
+        <div class="col-lg-3 col-md-6">
+            <div class="card text-white bg-primary mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Trafik</h5>
+                    <p class="card-text">350,897</p>
+                    <small>%3.48 geçen ay</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="card text-white bg-success mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Yeni Kullanıcılar</h5>
+                    <p class="card-text">2,356</p>
+                    <small>%3.48 geçen hafta</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="card text-white bg-warning mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Satışlar</h5>
+                    <p class="card-text">924</p>
+                    <small>%1.10 dün</small>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6">
+            <div class="card text-white bg-danger mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Performans</h5>
+                    <p class="card-text">49.65%</p>
+                    <small>%12 geçen ay</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Grafikler -->
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="card-title">Satış Değeri</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="salesChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h5 class="card-title">Toplam Siparişler</h5>
+                </div>
+                <div class="card-body">
+                    <canvas id="ordersChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/js/dashboard.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Satış grafiği
+        var salesChartCtx = document.getElementById('salesChart').getContext('2d');
+        var salesChart = new Chart(salesChartCtx, {
+            type: 'line',
+            data: {
+                labels: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
+                datasets: [{
+                    label: 'Satış Değeri',
+                    data: [12000, 15000, 18000, 20000, 22000, 24000, 26000, 30000, 32000, 34000, 38000, 40000],
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            }
+        });
+
+        // Sipariş grafiği
+        var ordersChartCtx = document.getElementById('ordersChart').getContext('2d');
+        var ordersChart = new Chart(ordersChartCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Ocak', 'Şubat', 'Mart', 'Nisan', 'Mayıs', 'Haziran', 'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'],
+                datasets: [{
+                    label: 'Toplam Siparişler',
+                    data: [10, 20, 15, 30, 25, 40, 35, 50, 45, 60, 55, 70],
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                }]
+            }
+        });
+    </script>
+    <!-- Scripts section render ediliyor -->
+    
+}

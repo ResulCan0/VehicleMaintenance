@@ -4,8 +4,10 @@
 {
     foreach (var module in Model)
     {
-        <li>
-            <a href="/@module.ModuleName/Index">@module.ModuleNameTR</a>
+        <li class="nav-item">
+            <a class="nav-link" href="/@module.ModuleName/Index">
+                <i class="nav-link"></i> @module.ModuleNameTR
+            </a>
         </li>
     }
 }
