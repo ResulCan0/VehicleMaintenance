@@ -144,6 +144,11 @@
                 </a>
             </li>
         }
+        else
+         {
+                @await Component.InvokeAsync("ActiveModules")
+         }
+
             @if (string.IsNullOrEmpty(userId))
             {
                 <li class="nav-item">

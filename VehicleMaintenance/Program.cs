@@ -46,7 +46,7 @@ app.UseRouting();
 
 // Oturum middleware'ýný buraya taþýdýk
 app.UseSession();
-
+app.UseMiddleware<RequestLoggingMiddleware>();
 // Kullanýcý giriþ kontrolü middleware'ý
 app.Use(async (context, next) =>
 {
