@@ -38,7 +38,7 @@ public class UsersController : Controller
     // GET: Users/Create
     public IActionResult Create()
     {
-        ViewData["CompanyId"] = new SelectList(_context.Companies, "CompanyId", "CompanyName");
+        ViewData["CompanyId"] = new SelectList(_context.Companies.Where(c => !c.IsDeleted), "CompanyId", "CompanyName");
         ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "RoleName");
         return View();
     }
@@ -54,7 +54,7 @@ public class UsersController : Controller
             if (!_context.Companies.Any(c => c.CompanyId == user.CompanyId))
             {
                 ModelState.AddModelError("CompanyId", "Seçilen şirket geçersiz.");
-                ViewData["CompanyId"] = new SelectList(_context.Companies, "CompanyId", "CompanyName", user.CompanyId);
+                ViewData["CompanyId"] = new SelectList(_context.Companies.Where(c => !c.IsDeleted), "CompanyId", "CompanyName", user.CompanyId);
                 ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "RoleName");
                 return View(user);
             }
@@ -64,7 +64,7 @@ public class UsersController : Controller
             if (existingUser != null)
             {
                 ModelState.AddModelError("Email", "Bu e-posta adresi zaten kayıtlı.");
-                ViewData["CompanyId"] = new SelectList(_context.Companies, "CompanyId", "CompanyName", user.CompanyId);
+                ViewData["CompanyId"] = new SelectList(_context.Companies.Where(c => !c.IsDeleted), "CompanyId", "CompanyName", user.CompanyId);
                 ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "RoleName");
                 return View(user);
             }
@@ -75,7 +75,7 @@ public class UsersController : Controller
             return RedirectToAction(nameof(Index));
         }
 
-        ViewData["CompanyId"] = new SelectList(_context.Companies, "CompanyId", "CompanyName", user.CompanyId);
+        ViewData["CompanyId"] = new SelectList(_context.Companies.Where(c => !c.IsDeleted), "CompanyId", "CompanyName", user.CompanyId);
         ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "RoleName");
         return View(user);
     }
@@ -89,7 +89,7 @@ public class UsersController : Controller
         var user = await _context.CompanyUsers.FindAsync(id);
         if (user == null) return NotFound();
 
-        ViewData["CompanyId"] = new SelectList(_context.Companies, "CompanyId", "CompanyName", user.CompanyId);
+        ViewData["CompanyId"] = new SelectList(_context.Companies.Where(c => !c.IsDeleted), "CompanyId", "CompanyName", user.CompanyId);
         ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "RoleName");
         return View(user);
     }
@@ -99,7 +99,16 @@ public class UsersController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(Guid id, [Bind("RoleId,UserId,FirstName,LastName,Email,PhoneNumber,Password,IsActive,CompanyId")] User user)
     {
-        if (id != user.UserId) return NotFound();
+        if (id != user.UserId)
+            return NotFound();
+
+        if (!CompanyExists(user.CompanyId))
+        {
+            ModelState.AddModelError("CompanyId", "Seçilen şirket geçerli değil.");
+            ViewData["CompanyId"] = new SelectList(_context.Companies.Where(c => !c.IsDeleted), "CompanyId", "CompanyName", user.CompanyId);
+            ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "RoleName");
+            return View(user);
+        }
 
         if (ModelState.IsValid)
         {
@@ -110,15 +119,24 @@ public class UsersController : Controller
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserExists(user.UserId)) return NotFound();
-                else throw;
+                if (!UserExists(user.UserId))
+                    return NotFound();
+                else
+                    throw;
             }
             return RedirectToAction(nameof(Index));
         }
-        ViewData["CompanyId"] = new SelectList(_context.Companies, "CompanyId", "CompanyName", user.CompanyId);
+
+        ViewData["CompanyId"] = new SelectList(_context.Companies.Where(c => !c.IsDeleted), "CompanyId", "CompanyName", user.CompanyId);
         ViewData["RoleId"] = new SelectList(_context.Roles, "RoleId", "RoleName");
         return View(user);
     }
+
+    private bool CompanyExists(Guid companyId)
+    {
+        return _context.Companies.Any(c => c.CompanyId == companyId);
+    }
+
 
     // GET: Users/Delete/5
     public async Task<IActionResult> Delete(Guid? id)

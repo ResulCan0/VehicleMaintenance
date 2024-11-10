@@ -33,7 +33,7 @@ namespace VehicleMaintenance.Controllers
              );
 
             //ViewData["BrandModelId"] = new SelectList(_context.BrandModels, "BrandModel.BrandId", "BrandName");//hatalı şuanda aktif değil
-            ViewData["CompanyId"] = new SelectList(_context.Companies, "CompanyId", "CompanyName");
+            ViewData["CompanyId"] = new SelectList(_context.Companies.Where(c => !c.IsDeleted), "CompanyId", "CompanyName");
             return View();
         }
 
@@ -74,7 +74,7 @@ namespace VehicleMaintenance.Controllers
            );
 
             //ViewData["BrandModelId"] = new SelectList(_context.BrandModels, "BrandModel.BrandId", "BrandName");//hatalı şuanda aktif değil
-            ViewData["CompanyId"] = new SelectList(_context.Companies, "CompanyId", "CompanyName");
+            ViewData["CompanyId"] = new SelectList(_context.Companies.Where(c => !c.IsDeleted), "CompanyId", "CompanyName");
             if (id == null)
             {
                 return NotFound();

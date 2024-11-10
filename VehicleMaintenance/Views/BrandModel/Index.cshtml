@@ -10,6 +10,7 @@
         <tr>
             <th>Model Adı</th>
             <th>Marka Adı</th>
+            <th>Logo</th>
             <th>Sınıfı</th>
             <th>Düzenle - Detay Gör - Sil </th>
         </tr>
@@ -20,6 +21,18 @@
             <tr>
                 <td>@brandmodelmodel.ModelName</td>
                 <td>@brandmodelmodel.Brand.BrandName</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(brandmodelmodel.Brand.Logo))
+                    {
+                        <div class="logo-thumbnail">
+                            @Html.Raw(brandmodelmodel.Brand.Logo) <!-- SVG logosunu burada boyutlandırılmış olarak gösteriyoruz -->
+                        </div>
+                    }
+                    else
+                    {
+                        <span>Logo mevcut değil</span>
+                    }
+                </td>
                 <td>@brandmodelmodel.Class</td>
                 <td>
                     <a href="/BrandModel/Edit/@brandmodelmodel.BrandModelId" class="btn btn-primary btn-sm">Düzenle</a>
