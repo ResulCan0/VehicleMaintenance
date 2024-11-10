@@ -1,7 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using System;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+
 
 
 public class CompanyController : Controller
@@ -12,24 +15,26 @@ public class CompanyController : Controller
     {
         _context = context;
     }
+
     [HttpGet]
     public IActionResult GetUserId()
     {
         var userIdString = HttpContext.Session.GetString("UserId");
         if (string.IsNullOrEmpty(userIdString))
         {
-            Console.WriteLine("UserId is null or empty"); // Hata günlüğü
-            return Ok(null); // Kullanıcı kimliği yoksa null döndür
+            Console.WriteLine("UserId is null or empty");
+            return Ok(null);
         }
-        Console.WriteLine($"UserId found: {userIdString}"); // Hata günlüğü
-        return Ok(userIdString); // Kullanıcı kimliğini döndür
+
+        Console.WriteLine($"UserId found: {userIdString}");
+        return Ok(userIdString);
     }
     // GET: Company
     public async Task<IActionResult> Index()
     {
         var companies = await _context.Companies
-        .Where(c => !c.IsDeleted) // Silinmemiş kayıtları al
-        .ToListAsync();
+            .Where(c => !c.IsDeleted)
+            .ToListAsync();
 
         return View(companies);
     }
@@ -39,20 +44,23 @@ public class CompanyController : Controller
     {
         return View();
     }
+
     // GET: Company/Details/5
-    public IActionResult Details(Guid id)
+    public async Task<IActionResult> Details(Guid id)
     {
-        var company = _context.Companies.FirstOrDefault(c => c.CompanyId == id);
+        var company = await _context.Companies.FirstOrDefaultAsync(c => c.CompanyId == id);
         if (company == null)
         {
             return NotFound();
         }
+
         return View(company);
     }
+
     // POST: Company/Create
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("CompanyId,CompanyName,IsActive,TaxNumber")] Company company)
+    public async Task<IActionResult> Create([Bind("CompanyId,CompanyName,IsActive,TaxNumber,Adress,Mail,TaxOffice,PersonandLegal,MaturityDate,PhoneNumber")] Company company)
     {
         if (ModelState.IsValid)
         {
@@ -62,6 +70,7 @@ public class CompanyController : Controller
                 ModelState.AddModelError("CompanyName", "Bu şirket zaten kayıtlı.");
                 return View(company);
             }
+
             _context.Add(company);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -82,15 +91,20 @@ public class CompanyController : Controller
         {
             return NotFound();
         }
+
         return View(company);
     }
 
     // POST: Company/Edit/5
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(Guid id, [Bind("CompanyId,CompanyName,IsActive,TaxNumber")] Company company)
+    public async Task<IActionResult> Edit(Guid id, [Bind("CompanyId,CompanyName,IsActive,TaxNumber,Adress,Mail,TaxOffice,PersonandLegal,MaturityDate,PhoneNumber")] Company company)
     {
-       
+        if (id != company.CompanyId)
+        {
+            return NotFound();
+        }
+
         if (ModelState.IsValid)
         {
             try
@@ -104,13 +118,12 @@ public class CompanyController : Controller
                 {
                     return NotFound();
                 }
-                else
-                {
-                    throw;
-                }
+                throw;
             }
+
             return RedirectToAction(nameof(Index));
         }
+
         return View(company);
     }
 
@@ -122,8 +135,7 @@ public class CompanyController : Controller
             return NotFound();
         }
 
-        var company = await _context.Companies
-            .FirstOrDefaultAsync(m => m.CompanyId == id);
+        var company = await _context.Companies.FirstOrDefaultAsync(m => m.CompanyId == id);
         if (company == null)
         {
             return NotFound();
@@ -137,13 +149,14 @@ public class CompanyController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)
     {
-    var company = await _context.Companies.FindAsync(id);
-    if (company != null)
-    {
-        company.IsDeleted = true; // Kaydı silmek yerine işaretle
-        await _context.SaveChangesAsync();
-    }
-    return RedirectToAction(nameof(Index));
+        var company = await _context.Companies.FindAsync(id);
+        if (company != null)
+        {
+            company.IsDeleted = true;
+            await _context.SaveChangesAsync();
+        }
+
+        return RedirectToAction(nameof(Index));
     }
 
     private bool CompanyExists(Guid id)

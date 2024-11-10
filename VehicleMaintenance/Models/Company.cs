@@ -30,7 +30,12 @@ public class Company
     [Required]
     [MaxLength(15)]
     public string TaxNumber { get; set; }
-
+    public string Adress { get; set; }
+    public string Mail { get; set; }
+    public string TaxOffice { get; set; }
+    public string PhoneNumber { get; set; }
+    public string PersonandLegal { get; set; }
+    public string MaturityDate { get; set; }
     public bool IsActive { get; set; }
     public bool IsDeleted { get; set; } = false;
 
