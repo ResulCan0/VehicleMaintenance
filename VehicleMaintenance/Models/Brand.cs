@@ -8,6 +8,6 @@ public class Brand
     [Required]
     [MaxLength(50)]
     public string BrandName { get; set; }
-
+    public string? Logo { get; set; }
     public ICollection<BrandModel>? BrandModels { get; set; }
 }

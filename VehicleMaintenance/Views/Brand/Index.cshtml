@@ -6,11 +6,21 @@
 
 <h2>Markalar</h2>
 
+<!-- CSS Stil Tanımlamaları -->
+<style>
+    .logo-thumbnail {
+        width: 50px; /* Standart genişlik */
+        height: 50px; /* Standart yükseklik */
+        display: block;
+    }
+</style>
+
 <table class="table table-striped table-bordered">
     <thead class="thead-dark">
         <tr>
             <th>Marka Adı</th>
-            <th>Düzenle - Detay Gör - Sil </th>
+            <th>Logo</th>
+            <th>Düzenle - Detay Gör - Sil</th>
         </tr>
     </thead>
     <tbody>
@@ -18,6 +28,18 @@
         {
             <tr>
                 <td>@brand.BrandName</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(brand.Logo))
+                    {
+                        <div class="logo-thumbnail">
+                            @Html.Raw(brand.Logo) <!-- SVG logosunu burada boyutlandırılmış olarak gösteriyoruz -->
+                        </div>
+                    }
+                    else
+                    {
+                        <span>Logo mevcut değil</span>
+                    }
+                </td>
                 <td>
                     <a href="/Brand/Edit/@brand.BrandId" class="btn btn-primary btn-sm">Düzenle</a>
                     <a href="/Brand/Details/@brand.BrandId" class="btn btn-info btn-sm">Detaylar</a>

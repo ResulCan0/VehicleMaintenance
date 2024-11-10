@@ -3,6 +3,7 @@ using VehicleMaintenance.Models;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using System.Text.RegularExpressions;
 
 
 
@@ -18,7 +19,9 @@ using Microsoft.EntityFrameworkCore;
         // GET: Brand
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Brands.ToListAsync());
+        var brands = await _context.Brands.ToListAsync();
+        ViewBag.Brands = brands.Select(b => new { b.BrandName, b.Logo }).ToList();
+        return View(brands);
         }
 
         // GET: Brand/Create
@@ -30,19 +33,29 @@ using Microsoft.EntityFrameworkCore;
         // POST: Brand/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("BrandId,BrandName")] Brand brand)
+    public async Task<IActionResult> Create([Bind("BrandId,BrandName")] Brand brand, IFormFile LogoFile)
+    {
+        if (ModelState.IsValid)
         {
-            if (ModelState.IsValid)
+            if (LogoFile != null && LogoFile.ContentType == "image/svg+xml")
             {
-                _context.Add(brand);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                using (var reader = new StreamReader(LogoFile.OpenReadStream()))
+                {
+                    var svgContent = await reader.ReadToEndAsync();
+                    brand.Logo = SetSvgDimensions(svgContent, 50, 50); // Boyutları ayarla
+                }
             }
-            return View(brand);
-        }
 
-        // GET: Brand/Edit/5
-        public async Task<IActionResult> Edit(Guid? id)
+            _context.Add(brand);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+        return View(brand);
+    }
+
+
+    // GET: Brand/Edit/5
+    public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
@@ -60,35 +73,40 @@ using Microsoft.EntityFrameworkCore;
         // POST: Brand/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, [Bind("BrandId,BrandName")] Brand brand)
+        public async Task<IActionResult> Edit(Guid id, [Bind("BrandId,BrandName")] Brand brand, IFormFile LogoFile)
+    {
+        if (id != brand.BrandId)
         {
-            if (id != brand.BrandId)
+            return NotFound();
+        }
+
+        if (ModelState.IsValid)
+        {
+
+            var existingBrand = await _context.Brands.FindAsync(id);
+            if (existingBrand == null)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            existingBrand.BrandName = brand.BrandName;
+
+            // SVG logo güncelleme
+            if (LogoFile != null && LogoFile.ContentType == "image/svg+xml")
             {
-                try
+                using (var reader = new StreamReader(LogoFile.OpenReadStream()))
                 {
-                    _context.Update(brand);
-                    await _context.SaveChangesAsync();
+                    existingBrand.Logo = await reader.ReadToEndAsync();
+                    existingBrand.Logo = SetSvgDimensions(existingBrand.Logo, 50, 50);
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!BrandExists(brand.BrandId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
             }
-            return View(brand);
+
+            _context.Update(existingBrand);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
+        return View(brand);
+    }
          
         // GET: Brand/Delete/5
         public async Task<IActionResult> Delete(Guid? id)
@@ -123,5 +141,21 @@ using Microsoft.EntityFrameworkCore;
         {
             return _context.Brands.Any(e => e.BrandId == id);
         }
+    private string SetSvgDimensions(string svgContent, int width, int height)
+    {
+        if (string.IsNullOrEmpty(svgContent)) return svgContent;
+
+        // width ve height özelliklerini değiştirmek için Regex kullanıyoruz
+        svgContent = Regex.Replace(svgContent, @"width=""[^""]*""", $"width=\"{width}px\"");
+        svgContent = Regex.Replace(svgContent, @"height=""[^""]*""", $"height=\"{height}px\"");
+
+        // Eğer width ve height yoksa, SVG etiketine ekleyin
+        if (!svgContent.Contains("width="))
+            svgContent = svgContent.Replace("<svg", $"<svg width=\"{width}px\"");
+        if (!svgContent.Contains("height="))
+            svgContent = svgContent.Replace("<svg", $"<svg height=\"{height}px\"");
+
+        return svgContent;
     }
+}
 

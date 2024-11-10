@@ -6,11 +6,15 @@
 
 <h1>Yeni Marka Oluştur</h1>
 
-<form asp-action="Create">
+<form asp-action="Create" enctype="multipart/form-data">
     <div class="form-group">
         <label asp-for="BrandName" class="control-label">Marka Adı</label>
         <input asp-for="BrandName" class="form-control" />
         <span asp-validation-for="BrandName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label class="control-label">Logo Yükle (SVG)</label>
+        <input type="file" name="LogoFile" class="form-control-file" accept=".svg" />
     </div>
     <div class="form-group">
         <input type="submit" value="Oluştur" class="btn btn-primary" />

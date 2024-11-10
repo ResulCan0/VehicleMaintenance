@@ -6,13 +6,36 @@
 
 <h1>Marka Düzenle</h1>
 
-<form asp-action="Edit">
+<form asp-action="Edit" enctype="multipart/form-data">
     <input type="hidden" asp-for="BrandId" />
+
     <div class="form-group">
         <label asp-for="BrandName" class="control-label">Marka Adı</label>
         <input asp-for="BrandName" class="form-control" />
         <span asp-validation-for="BrandName" class="text-danger"></span>
     </div>
+
+    <div class="form-group">
+        <label class="control-label">Mevcut Logo</label>
+        <div>
+            @if (!string.IsNullOrEmpty(Model.Logo))
+            {
+                <div>
+                    <img src="data:image/svg+xml;base64,@Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(Model.Logo))" style="width: 100px; height: auto;" alt="Logo" />
+                </div>
+            }
+            else
+            {
+                <p>Logo mevcut değil.</p>
+            }
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="control-label">Yeni Logo Yükle (SVG)</label>
+        <input type="file" name="LogoFile" class="form-control-file" accept=".svg" />
+    </div>
+
     <div class="form-group">
         <input type="submit" value="Kaydet" class="btn btn-primary" />
         <a asp-action="Index" class="btn btn-secondary">İptal</a>
