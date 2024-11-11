@@ -68,7 +68,7 @@ namespace VehicleMaintenance.Controllers
                         await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal);
 
                         // Yönlendirme
-                        return RedirectToAction("Index", "StockPart");
+                        return RedirectToAction("Index", "Dashboard");
                     }
 
                     ModelState.AddModelError("", "Geçersiz şifre.");

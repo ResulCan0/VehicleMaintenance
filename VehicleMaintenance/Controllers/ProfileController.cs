@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http; // Session için ekledik
 using System;
 using System.Threading.Tasks;
-using VehicleMaintenance.Models; // Model namespace'inizi belirtin
+using VehicleMaintenance.Models;
+using System.Security.Claims; // Model namespace'inizi belirtin
 
 // Sadece giriş yapmış kullanıcıların erişimine izin ver
 [Authorize]
@@ -19,14 +20,15 @@ public class ProfileController : Controller
     // Profil sayfası için GET metodu
     public async Task<IActionResult> Index()
     {
-        var userIdString = HttpContext.Session.GetString("UserId");
-        if (string.IsNullOrEmpty(userIdString))
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+        var userId = userIdClaim?.Value;
+        if (string.IsNullOrEmpty(userId))
         {
             return RedirectToAction("Login", "Account");
         }
 
-        var userId = Guid.Parse(userIdString);
-        var user = await _context.CompanyUsers.FindAsync(userId);
+        var userIdp = Guid.Parse(userId);
+        var user = await _context.CompanyUsers.FindAsync(userIdp);
         if (user == null)
         {
             return NotFound(); // Kullanıcı bulunamazsa 404 döner
@@ -39,14 +41,15 @@ public class ProfileController : Controller
     [HttpGet]
     public async Task<IActionResult> Update()
     {
-        var userIdString = HttpContext.Session.GetString("UserId");
-        if (string.IsNullOrEmpty(userIdString))
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+        var userId = userIdClaim?.Value;
+        if (string.IsNullOrEmpty(userId))
         {
             return RedirectToAction("Login", "Account");
         }
 
-        var userId = Guid.Parse(userIdString);
-        var user = await _context.CompanyUsers.FindAsync(userId);
+        var userIdp = Guid.Parse(userId);
+        var user = await _context.CompanyUsers.FindAsync(userIdp);
         if (user == null)
         {
             return NotFound(); // Kullanıcı bulunamazsa 404 döner
