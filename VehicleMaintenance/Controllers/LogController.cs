@@ -14,8 +14,9 @@ public class LogController : Controller
     [HttpPost("Click")]
     public async Task<IActionResult> LogClick([FromBody] ClickLog model)
     {
-        // Kullanıcı kimliğini al
-        var userIdString = model.UserId.ToString(); // Burada modelden string olarak alıyoruz
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+        string userIdString = userIdClaim?.Value; // Burada modelden string olarak alıyoruz
+
         Guid userId;
         bool isUserIdValid = Guid.TryParse(userIdString, out userId);
 

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using VehicleMaintenance.Models; // Model namespace'inizi belirtin
 
 // Sadece giriş yapmış kullanıcıların erişimine izin ver
+[Authorize]
 public class ProfileController : Controller
 {
     private readonly ApplicationDbContext _context;
