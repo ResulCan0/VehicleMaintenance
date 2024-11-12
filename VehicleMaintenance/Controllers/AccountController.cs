@@ -1,7 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using VehicleMaintenance.Models;
 
@@ -10,12 +15,12 @@ namespace VehicleMaintenance.Controllers
     public class AccountController : Controller
     {
         private readonly ApplicationDbContext _context;
-        //
+
         public AccountController(ApplicationDbContext context)
         {
             _context = context;
         }
-      
+
         [HttpGet]
         public IActionResult Login()
         {
@@ -23,7 +28,6 @@ namespace VehicleMaintenance.Controllers
         }
 
         [HttpPost]
-        
         public async Task<IActionResult> Login(LoginViewModel model)
         {
             if (ModelState.IsValid)
@@ -31,27 +35,42 @@ namespace VehicleMaintenance.Controllers
                 var user = _context.CompanyUsers
                     .Include(u => u.Roles)
                     .SingleOrDefault(u => u.Email == model.Email && u.IsActive);
+
                 if (user != null)
                 {
-                    if (user.Password == model.Password) // Burada hash karşılaştırması yapmanız gerekir
+                    if (user.Password == model.Password) // Burada hash karşılaştırması yapmalısınız
                     {
-                        
-                        // Kullanıcıyı oturum açtır
-                        HttpContext.Session.SetString("UserId", user.UserId.ToString());
-                        HttpContext.Session.SetString("CompanyId", user.CompanyId.ToString());
-                        HttpContext.Session.SetString("RoleName",user.Roles.RoleName);
+                        // Claims listesi oluştur
+                        var claims = new List<Claim>
+                        {
+                            new Claim(ClaimTypes.Name, user.Email),
+                            new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
+                            new Claim("CompanyId", user.CompanyId.ToString()),
+                            new Claim(ClaimTypes.Role, user.Roles.RoleName)
+                        };
 
-                        // Kullanıcının bağlı olduğu şirketin aktif modüllerini al
+                        // Kullanıcının bağlı olduğu aktif modülleri de claim olarak ekleyin
                         var activeModules = _context.CompanyModules
                             .Where(cm => cm.CompanyId == user.CompanyId && cm.IsActive)
                             .Select(cm => cm.Module)
                             .ToList();
 
-                        // Modül erişimini session'a kaydet
-                        HttpContext.Session.SetString("ActiveModules", string.Join(",", activeModules.Select(m => m.ModuleId)));
-                        ViewBag.ActiveModules = activeModules;
-                        return RedirectToAction("Index", "StockPart"); // Ana sayfaya yönlendir
+                        foreach (var module in activeModules)
+                        {
+                            claims.Add(new Claim("Module", module.ModuleId.ToString()));
+                        }
+
+                        // ClaimsIdentity ve ClaimsPrincipal oluştur
+                        var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+                        var claimsPrincipal = new ClaimsPrincipal(claimsIdentity);
+
+                        // Oturum aç
+                        await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal);
+
+                        // Yönlendirme
+                        return RedirectToAction("Index", "Dashboard");
                     }
+
                     ModelState.AddModelError("", "Geçersiz şifre.");
                 }
                 else
@@ -61,23 +80,20 @@ namespace VehicleMaintenance.Controllers
             }
             return View(model);
         }
- 
-        [HttpGet]
-        public IActionResult Logout()
-        {
-            // Oturumu sonlandır
-            HttpContext.Session.Clear();
 
+        [HttpGet]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToAction("Login", "Account");
         }
 
-        // Aktif modülleri kontrol etmek için bir yardımcı metot ekleyebilirsiniz
+        // Aktif modül erişimi kontrolü için bir yardımcı metot ekleyin
+        [Authorize]
         public bool HasAccessToModule(Guid moduleId)
         {
-            var activeModules = HttpContext.Session.GetString("ActiveModules")?.Split(',')
-                .Select(Guid.Parse).ToList() ?? new List<Guid>();
-
-            return activeModules.Contains(moduleId);
+            var userClaims = HttpContext.User.Claims.Where(c => c.Type == "Module").Select(c => Guid.Parse(c.Value)).ToList();
+            return userClaims.Contains(moduleId);
         }
     }
 }

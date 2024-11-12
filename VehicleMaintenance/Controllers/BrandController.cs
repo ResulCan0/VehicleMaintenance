@@ -4,10 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Authorization;
 
 
-
-    public class BrandController : Controller
+[Authorize]
+public class BrandController : Controller
     {
         private readonly ApplicationDbContext _context;
 

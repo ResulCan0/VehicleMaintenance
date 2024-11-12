@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 
-
+[Authorize]
 public class CompanyController : Controller
 {
     private readonly ApplicationDbContext _context;
@@ -19,15 +20,16 @@ public class CompanyController : Controller
     [HttpGet]
     public IActionResult GetUserId()
     {
-        var userIdString = HttpContext.Session.GetString("UserId");
-        if (string.IsNullOrEmpty(userIdString))
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+        var userId = userIdClaim?.Value;
+        if (string.IsNullOrEmpty(userId))
         {
             Console.WriteLine("UserId is null or empty");
             return Ok(null);
         }
 
-        Console.WriteLine($"UserId found: {userIdString}");
-        return Ok(userIdString);
+        Console.WriteLine($"UserId found: {userId}");
+        return Ok(userId);
     }
     // GET: Company
     public async Task<IActionResult> Index()

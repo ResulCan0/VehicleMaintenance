@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using System;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Reflection;
+using Microsoft.AspNetCore.Authorization;
 
 namespace VehicleMaintenance.Controllers
 {
+    [Authorize]
     public class BrandModelController : Controller
     {
         private readonly ApplicationDbContext _context;
