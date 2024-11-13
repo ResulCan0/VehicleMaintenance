@@ -34,30 +34,31 @@
 
         .sidebar {
             min-height: 100vh;
-            background-color: #343a40;
-            color: white;
+            background-color: #f8f9fa; /* Beyaza yakın ama biraz daha kapalı ton */
+            color: gray; /* Varsayılan yazı rengini gri yaptık */
             position: fixed;
-            width: 250px; /* Yan menü genişliği */
-            left: 0; /* Sol kenara yapışık */
-            transition: transform 0.3s ease; /* Animasyon efekti için */
-            transform: translateX(0); /* Başlangıçta görünür */
+            width: 250px;
+            left: 0;
+            transition: transform 0.3s ease;
+            transform: translateX(0);
         }
+
 
         .sidebar.closed {
             transform: translateX(-100%); /* Yan menü kapandığında */
         }
 
-        .sidebar a {
-            color: white;
-            text-decoration: none;
-            padding: 15px;
-            display: block;
-            transition: background-color 0.3s;
-        }
+            .sidebar a {
+                color: gray; /* Linklerin yazı rengini gri yaptık */
+                text-decoration: none;
+                padding: 15px;
+                display: block;
+                transition: background-color 0.3s;
+            }
 
-        .sidebar a:hover {
-            background-color: #495057;
-        }
+                .sidebar a:hover {
+                    background-color: #f0f0f0; /* Hover durumunda açık gri arka plan */
+                }
 
         .content-wrapper {
             margin-left: 250px; /* Yan menü açıkken içerik genişliği */
@@ -98,6 +99,15 @@
             width: calc(100% - 250px);
             transition: width 0.3s;
         }
+
+        .nav-item .collapse .nav-link {
+            padding-left: 30px; /* İç içe menüyü biraz içeriden başlatmak için */
+            color: gray; /* Alt menüdeki yazı rengini gri yapma */
+        }
+
+            .nav-item .collapse .nav-link:hover {
+                background-color: #e9ecef; /* Hover durumda açık gri */
+            }
     </style>
 </head>
 <body>
@@ -124,19 +134,27 @@
                     <i class="fas fa-users"></i> Kullanıcılar
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/Brand/Index">
-                    <i class="fas fa-car"></i> Araç Marka
-                </a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-linkse" href="#vehicleModelSubmenu" data-bs-toggle="collapse" aria-expanded="false">
+                        <i class="fas fa-cogs"></i> Tanımlar
+                    </a>
+                    <ul class="collapse list-unstyled" id="vehicleModelSubmenu">
+                        <li class="nav-item">
+                            <a class="nav-link" href="/BrandModel/Index">
+                                <i class="fas fa-car"></i> Araç Model
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Brand/Index">
+                                <i class="fas fa-plus"></i> Araç Marka
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+         
             <li class="nav-item">
                 <a class="nav-link" href="/Vehicle/Index">
                     <i class="fas fa-car-side"></i> Şirkete Bağlı Araçlar
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/BrandModel/Index">
-                    <i class="fas fa-car-alt"></i> Araç Model
                 </a>
             </li>
             <li class="nav-item">
