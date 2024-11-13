@@ -3,41 +3,57 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<style>
-    body, html {
-        min-height: 100%;
-        display: flex;
-        flex-direction: column;
-    }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* General Styles */
+        body, html {
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+            background-color: #f4f4f9;
+        }
 
-    .container-fluid {
-        flex: 1;
-    }
+        .container-fluid {
+            flex: 1;
+        }
 
-    footer {
-        background-color: #f1f1f1;
-        color: #f1f1f1;
-        text-align: center;
-        padding: 10px 0;
-        position: relative;
-        bottom: 0;
-        width: 100%;
-    }
+        canvas {
+            -webkit-box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);
+            -moz-box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
 
-    .card {
-        background-color: #2a2a40;
-        color: #ffffff;
-        border: none;
-        border-radius: 8px;
-        margin-bottom: 20px;
-        padding: 20px;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-    }
+        /* Footer Style */
+        footer {
+            background-color: #f1f1f1;
+            color: #f1f1f1;
+            text-align: center;
+            padding: 10px 0;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
 
-    .card-title {
-        color: #ffffff; /* Yazı rengini beyaz yap */
-    }
-        .card .card-title {
+        /* Card Styles */
+        .card {
+            background-color: #2a2a40;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            padding: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-title {
+            color: #ffffff; /* White title text */
             font-size: 1.2rem;
             font-weight: bold;
         }
@@ -51,101 +67,100 @@
         .card small {
             display: block;
             margin-top: 5px;
-            color: #b3b3b3;
+            color: #b3b3b3; /* Subtle text color */
         }
 
-    .header {
-        background-color: #1e1e2d;
-        border-radius: 8px;
-        padding: 10px 20px;
-        font-size: 1.5rem;
-        font-weight: bold;
-        color: #ffffff;
-        margin-bottom: 20px;
-    }
+        /* Header Style */
+        .header {
+            background-color: #1e1e2d;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 20px;
+        }
 
-    .chart-container {
-        background-color: #2a2a40;
-        border-radius: 8px;
-        padding: 20px;
-        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-        height: 300px; /* Grafik alanına yeterli yükseklik verin */
-    }
-</style>
+        /* Chart Container Styles */
+        .chart-container {
+            background-color: #2a2a40;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            height: 300px; /* Adequate height for charts */
+        }
+    </style>
+</head>
+<body>
 
-<div class="container-fluid">
-    <!-- Başlık -->
-
-
-    <!-- Kartlar -->
-    <div class="row mb-4">
-        <div class="col-lg-3 col-md-6">
-            <div class="card text-white" style="background-color: #4285f4;">
-                <div class="card-body">
-                    <h5 class="card-title">Traffic</h5>
-                    <p class="card-text">350,897</p>
-                    <small>+3.48% Since last month</small>
+    <div class="container-fluid">
+        <!-- Cards Section -->
+        <div class="row mb-4">
+            <div class="col-lg-3 col-md-6">
+                <div class="card text-white" style="background-color: #4285f4;">
+                    <div class="card-body">
+                        <h5 class="card-title">Traffic</h5>
+                        <p class="card-text">350,897</p>
+                        <small>+3.48% Since last month</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card text-white" style="background-color: #34a853;">
+                    <div class="card-body">
+                        <h5 class="card-title">New Users</h5>
+                        <p class="card-text">2,356</p>
+                        <small>-3.48% Since last week</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card text-white" style="background-color: #fbbc05;">
+                    <div class="card-body">
+                        <h5 class="card-title">Sales</h5>
+                        <p class="card-text">924</p>
+                        <small>-1.10% Since yesterday</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="card text-white" style="background-color: #ea4335;">
+                    <div class="card-body">
+                        <h5 class="card-title">Performance</h5>
+                        <p class="card-text">49.65%</p>
+                        <small>+12% Since last month</small>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-lg-3 col-md-6">
-            <div class="card text-white" style="background-color: #34a853;">
-                <div class="card-body">
-                    <h5 class="card-title">New Users</h5>
-                    <p class="card-text">2,356</p>
-                    <small>-3.48% Since last week</small>
+
+        <!-- Charts Section -->
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="chart-container">
+                    <h5 class="card-title" style="color: #ffffff;">Sales Value</h5>
+                    <canvas id="salesChart" width="400" height="200"></canvas>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="chart-container">
+                    <h5 class="card-title" style="color: #ffffff;">Total Orders</h5>
+                    <canvas id="ordersChart" width="400" height="200"></canvas>
                 </div>
             </div>
         </div>
-        <div class="col-lg-3 col-md-6">
-            <div class="card text-white" style="background-color: #fbbc05;">
-                <div class="card-body">
-                    <h5 class="card-title">Sales</h5>
-                    <p class="card-text">924</p>
-                    <small>-1.10% Since yesterday</small>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-3 col-md-6">
-            <div class="card text-white" style="background-color: #ea4335;">
-                <div class="card-body">
-                    <h5 class="card-title">Performance</h5>
-                    <p class="card-text">49.65%</p>
-                    <small>+12% Since last month</small>
+
+        <!-- Growth Chart Section -->
+        <div class="row mt-4">
+            <div class="col-lg-12">
+                <div class="chart-container">
+                    <h5 class="card-title" style="color: #ffffff;">Monthly Growth</h5>
+                    <canvas id="growthChart" width="400" height="200"></canvas>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Grafikler -->
-    <div class="row">
-        <div class="col-lg-8">
-            <div class="chart-container">
-                <h5 class="card-title" style="color: #ffffff;">Sales Value</h5>
-                <canvas id="salesChart" width="400" height="200"></canvas>
-            </div>
-        </div>
-        <div class="col-lg-4">
-            <div class="chart-container">
-                <h5 class="card-title" style="color: #ffffff;">Total Orders</h5>
-                <canvas id="ordersChart" width="400" height="200"></canvas>
-            </div>
-        </div>
-    </div>
-
-    <!-- Çizgili Grafik -->
-    <div class="row mt-4">
-        <div class="col-lg-12">
-            <div class="chart-container">
-                <h5 class="card-title" style="color: #ffffff;">Monthly Growth</h5>
-                <canvas id="growthChart" width="400" height="200"></canvas>
-            </div>
-        </div>
-    </div>
-
-
-@section Scripts {
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         // Sales Chart
         var salesChartCtx = document.getElementById('salesChart').getContext('2d');
@@ -193,30 +208,31 @@
                 responsive: true,
                 plugins: {
                     legend: {
-                        labels: { color: '#ffffff' }  // Efsane kontrast için beyaz renk
+                        labels: { color: '#ffffff' }
                     }
                 },
                 scales: {
                     x: {
                         ticks: {
-                            color: '#ffffff'  // X eksenindeki sayıları beyaz yap
+                            color: '#ffffff'
                         },
                         grid: {
-                            color: '#444444'  // X ekseni çizgisi rengi
+                            color: '#444444'
                         }
                     },
                     y: {
                         ticks: {
-                            color: '#ffffff'  // Y eksenindeki sayıları beyaz yap
+                            color: '#ffffff'
                         },
                         grid: {
-                            color: '#444444'  // Y ekseni çizgisi rengi
+                            color: '#444444'
                         }
                     }
                 }
             }
         });
-        // Growth Chart (Çizgili Grafik)
+
+        // Growth Chart
         var growthChartCtx = document.getElementById('growthChart').getContext('2d');
         var growthChart = new Chart(growthChartCtx, {
             type: 'line',
@@ -234,28 +250,30 @@
                 responsive: true,
                 plugins: {
                     legend: {
-                        labels: { color: '#ffffff' }  // Efsane kontrast için beyaz renk
+                        labels: { color: '#ffffff' }
                     }
                 },
                 scales: {
                     x: {
                         ticks: {
-                            color: '#ffffff'  // X eksenindeki sayıları beyaz yap
+                            color: '#ffffff'
                         },
                         grid: {
-                            color: '#444444'  // X ekseni çizgisi rengi
+                            color: '#444444'
                         }
                     },
                     y: {
                         ticks: {
-                            color: '#ffffff'  // Y eksenindeki sayıları beyaz yap
+                            color: '#ffffff'
                         },
                         grid: {
-                            color: '#444444'  // Y ekseni çizgisi rengi
+                            color: '#444444'
                         }
                     }
                 }
             }
         });
     </script>
-}
+
+</body>
+</html>
