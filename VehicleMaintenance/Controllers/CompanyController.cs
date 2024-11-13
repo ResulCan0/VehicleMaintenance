@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-
 [Authorize]
 public class CompanyController : Controller
 {
@@ -17,28 +16,43 @@ public class CompanyController : Controller
         _context = context;
     }
 
-    [HttpGet]
-    public IActionResult GetUserId()
-    {
-        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
-        var userId = userIdClaim?.Value;
-        if (string.IsNullOrEmpty(userId))
-        {
-            Console.WriteLine("UserId is null or empty");
-            return Ok(null);
-        }
-
-        Console.WriteLine($"UserId found: {userId}");
-        return Ok(userId);
-    }
     // GET: Company
     public async Task<IActionResult> Index()
     {
-        var companies = await _context.Companies
-            .Where(c => !c.IsDeleted)
-            .ToListAsync();
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+        var userId = userIdClaim?.Value;
+        var userIdClaimRole = User.FindFirst(ClaimTypes.Role);
+        var userIdRole = userIdClaimRole?.Value;
 
-        return View(companies);
+        if (string.IsNullOrEmpty(userId))
+        {
+            return Unauthorized();
+        }
+
+        var user = await _context.CompanyUsers
+            .Include(u => u.Company)
+            .FirstOrDefaultAsync(u => u.UserId.ToString() == userId);
+
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        // Check if the user is an admin
+        var isAdmin = userIdRole;
+
+        if (isAdmin =="ADMİN")
+        {
+            var companiesr=await _context.Companies.Where(c => !c.IsDeleted).ToListAsync();
+            return View(companiesr);
+        }
+        else
+        {
+            var companiesrr = await _context.Companies.Where(c => c.CompanyId == user.CompanyId && !c.IsDeleted).ToListAsync();
+            return View(companiesrr);
+        }
+        // If the user is an admin, fetch all companies, else fetch only their own company
+       
     }
 
     // GET: Company/Create
@@ -47,10 +61,44 @@ public class CompanyController : Controller
         return View();
     }
 
+    [HttpGet]
+    public IActionResult GetUserId()
+    {
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+        var userId = userIdClaim?.Value;
+        if (string.IsNullOrEmpty(userId))
+        {
+            return Ok(null);
+        }
+        return Ok(userId);
+    }
+
     // GET: Company/Details/5
     public async Task<IActionResult> Details(Guid id)
     {
-        var company = await _context.Companies.FirstOrDefaultAsync(c => c.CompanyId == id);
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+        var userId = userIdClaim?.Value;
+        var userIdClaimRole = User.FindFirst(ClaimTypes.Role);
+        var userIdRole = userIdClaimRole?.Value;
+        if (string.IsNullOrEmpty(userId))
+        {
+            return Unauthorized();
+        }
+
+        var user = await _context.CompanyUsers
+            .Include(u => u.Company)
+            .FirstOrDefaultAsync(u => u.UserId.ToString() == userId);
+
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        // Check if the user is an admin or if they belong to the company
+        var company = await _context.Companies
+            .Where(c => c.CompanyId == id && (c.CompanyId == user.CompanyId || userIdRole == "ADMİN"))
+            .FirstOrDefaultAsync();
+
         if (company == null)
         {
             return NotFound();
@@ -88,7 +136,29 @@ public class CompanyController : Controller
             return NotFound();
         }
 
-        var company = await _context.Companies.FindAsync(id);
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+        var userId = userIdClaim?.Value;
+
+        if (string.IsNullOrEmpty(userId))
+        {
+            return Unauthorized();
+        }
+
+        var user = await _context.CompanyUsers
+            .Include(u => u.Company)
+            .FirstOrDefaultAsync(u => u.UserId.ToString() == userId);
+
+        if (user == null)
+        {
+            return NotFound();
+        }
+        var userIdClaimRole = User.FindFirst(ClaimTypes.Role);
+        var userIdRole = userIdClaimRole?.Value;
+        // Ensure the user can only edit their own company or if they are an admin
+        var company = await _context.Companies
+            .Where(c => c.CompanyId == id && (c.CompanyId == user.CompanyId || userIdRole =="ADMİN"))
+            .FirstOrDefaultAsync();
+
         if (company == null)
         {
             return NotFound();
@@ -137,7 +207,29 @@ public class CompanyController : Controller
             return NotFound();
         }
 
-        var company = await _context.Companies.FirstOrDefaultAsync(m => m.CompanyId == id);
+        var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+        var userId = userIdClaim?.Value;
+
+        if (string.IsNullOrEmpty(userId))
+        {
+            return Unauthorized();
+        }
+
+        var user = await _context.CompanyUsers
+            .Include(u => u.Company)
+            .FirstOrDefaultAsync(u => u.UserId.ToString() == userId);
+
+        if (user == null)
+        {
+            return NotFound();
+        }
+        var userIdClaimRole = User.FindFirst(ClaimTypes.Role);
+        var userIdRole = userIdClaimRole?.Value;
+        // Ensure the user can only delete their own company or if they are an admin
+        var company = await _context.Companies
+            .Where(c => c.CompanyId == id && (c.CompanyId == user.CompanyId || userIdRole=="ADMİN"))
+            .FirstOrDefaultAsync();
+
         if (company == null)
         {
             return NotFound();
