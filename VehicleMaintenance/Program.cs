@@ -16,6 +16,7 @@ builder.Services.AddSession(options => {
     options.IdleTimeout = TimeSpan.FromMinutes(30); // Oturum zaman aþým süresi
     options.Cookie.HttpOnly = true; // Çerez yalnýzca HTTP üzerinden eriþilebilir
     options.Cookie.IsEssential = true; // Çerez, kullanýcý rýzasý olmadan ayarlanabilir
+    options.Cookie.SameSite = SameSiteMode.Lax; // Çapraz site istekleri için
 });
 
 // Veritabaný baðlantýsýný yapýlandýrma
@@ -28,6 +29,18 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     {
         options.LoginPath = "/Account/Login"; // Giriþ yolu
         options.LogoutPath = "/Account/Logout"; // Çýkýþ yolu
+        options.SlidingExpiration = true; // Oturum yenilemesi (çerez süresi dolsa bile)
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(30); // Çerezin geçerlilik süresi
+        options.Cookie.HttpOnly = true;
+        options.Cookie.IsEssential = true;
+        options.Cookie.SameSite = SameSiteMode.Lax;
+        options.Cookie.MaxAge = TimeSpan.FromMinutes(30); // Çerezlerin ömrü
+        options.ExpireTimeSpan = TimeSpan.FromMinutes(30); // Çerezin geçerlilik süresi
+        options.Events.OnSigningOut = async context =>
+        {
+            // Kullanýcý çýkýþ yaptýðýnda cookie'leri temizleme
+            context.Response.Cookies.Delete("AspNetCore.Cookies"); // Çerez adýný doðru girin
+        };
     });
 
 var app = builder.Build();
@@ -47,21 +60,6 @@ app.UseRouting();
 // Oturum middleware'ýný buraya taþýdýk
 app.UseSession();
 app.UseMiddleware<RequestLoggingMiddleware>();
-// Kullanýcý giriþ kontrolü middleware'ý
-
-//app.Use(async (context, next) =>
-//{
-//    var path = context.Request.Path.Value;
-
-//    // Giriþ yapýlmamýþsa ve giriþ sayfasý deðilse
-//    if (string.IsNullOrEmpty(context.Session.GetString("UserId")) && path != "/Account/Login" && context.Request.Method != "POST")
-//    {
-//        context.Response.Redirect("/Account/Login");
-//        return;
-//    }
-
-//    await next(); // Diðer middleware'larý çaðýr
-//});
 
 // Kimlik doðrulama middleware'ýný ekle
 app.UseAuthentication();
