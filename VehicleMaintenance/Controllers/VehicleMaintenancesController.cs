@@ -26,9 +26,7 @@ namespace VehicleMaintenance.Controllers
         public IActionResult Create()
         {
             // Create a SelectList for vehicles displaying BrandModelText and returning VehicleId
-            ViewBag.VehicleId = new SelectList(_context.Vehicles.Include(v => v.BrandModel).ThenInclude(bm => bm.Brand),
-                                               "VehicleId",
-                                               "BrandModel.BrandModelText");
+            ViewBag.VehicleId = new SelectList(_context.Vehicles.Include(v => v.BrandModel).ThenInclude(bm => bm.Brand).Select(v => new{v.VehicleId,v.PlateNumber,}),"VehicleId","PlateNumber");
             return View();
         }
 
@@ -38,9 +36,7 @@ namespace VehicleMaintenance.Controllers
         public async Task<IActionResult> Create([Bind("VehicleMaintenanceId,MaintenanceType,ReasonCode,Description,ChargeParts,VehicleId")] VehicleMaintenances vehicleMaintenance)
         {
             // Create a SelectList for vehicles displaying BrandModelText and returning VehicleId
-            ViewBag.VehicleId = new SelectList(_context.Vehicles.Include(v => v.BrandModel).ThenInclude(bm => bm.Brand),
-                                               "VehicleId",
-                                               "BrandModel.BrandModelText");
+            ViewBag.VehicleId = new SelectList(_context.Vehicles.Include(v => v.BrandModel).ThenInclude(bm => bm.Brand).Select(v => new { v.VehicleId, v.PlateNumber, }), "VehicleId", "PlateNumber");
             if (ModelState.IsValid)
             {
                 _context.Add(vehicleMaintenance);
@@ -54,9 +50,7 @@ namespace VehicleMaintenance.Controllers
         public async Task<IActionResult> Edit(Guid? id)
         {
             // Create a SelectList for vehicles displaying BrandModelText and returning VehicleId
-            ViewBag.VehicleId = new SelectList(_context.Vehicles.Include(v => v.BrandModel).ThenInclude(bm => bm.Brand),
-                                               "VehicleId",
-                                               "BrandModel.BrandModelText");
+            ViewBag.VehicleId = new SelectList(_context.Vehicles.Include(v => v.BrandModel).ThenInclude(bm => bm.Brand).Select(v => new { v.VehicleId, v.PlateNumber, }), "VehicleId", "PlateNumber");
             if (id == null)
             {
                 return NotFound();
