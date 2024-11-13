@@ -63,6 +63,7 @@
         .content-wrapper {
             margin-left: 250px; /* Yan menü açıkken içerik genişliği */
             padding: 20px;
+            padding-bottom: 60px; /* Footer için yeterli alt boşluk ekleyin */
             background-color: #f8f9fa;
             transition: margin-left 0.3s ease; /* Animasyon efekti için */
         }
@@ -94,10 +95,9 @@
             background-color: #f8f9fa;
             padding: 1rem 0;
             text-align: center;
-            position: fixed;
+            width: 100%; /* Tam genişlik kaplaması */
+            position: relative; /* Sabit pozisyondan çıkarıldı */
             bottom: 0;
-            width: calc(100% - 250px);
-            transition: width 0.3s;
         }
 
         .nav-item .collapse .nav-link {
@@ -167,18 +167,18 @@
                     <i class="fas fa-box"></i> Stok Parça Durumu
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="/Account/Logout">
-                    <i class="fas fa-sign-out-alt"></i> Çıkış
-                </a>
-            </li>
+           
         }
         else
          {
                 @await Component.InvokeAsync("ActiveModules")
 
          }
-
+            <li class="nav-item">
+                <a class="nav-link" href="/Account/Logout">
+                    <i class="fas fa-sign-out-alt"></i> Çıkış
+                </a>
+            </li>
             @if (string.IsNullOrEmpty(userId))
             {
                 <li class="nav-item">
