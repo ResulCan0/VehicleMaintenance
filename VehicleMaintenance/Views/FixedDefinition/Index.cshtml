@@ -1,0 +1,33 @@
+﻿@model IEnumerable<FixedDefinition>
+
+@{
+    ViewData["Title"] = "Sabit Tanımlar";
+}
+<h1>Sabit Tanımlar</h1>
+
+<table class="table table-striped table-bordered">
+    <thead class="thead-dark">
+        <tr>
+            <th>Grup Kod</th>
+            <th>Kod</th>
+            <th>Ad</th>
+            <th>Düzenle - Detaylar - Sil</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.GroupCode)</td>
+                <td>@Html.DisplayFor(modelItem => item.Code)</td>
+                <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                <td>
+                    <a href="/FixedDefinition/Edit/@item.FixedDefinitionId" class="btn btn-primary btn-sm">Düzenle</a>
+                    <a href="/FixedDefinition/Delete/@item.FixedDefinitionId" class="btn btn-danger btn-sm">Sil</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a href="/FixedDefinition/Create" class="btn btn-success">Sabit Tanım Ekle</a>
