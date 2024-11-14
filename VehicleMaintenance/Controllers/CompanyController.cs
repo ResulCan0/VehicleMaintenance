@@ -4,6 +4,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 [Authorize]
@@ -23,6 +24,7 @@ public class CompanyController : Controller
         var userId = userIdClaim?.Value;
         var userIdClaimRole = User.FindFirst(ClaimTypes.Role);
         var userIdRole = userIdClaimRole?.Value;
+
 
         if (string.IsNullOrEmpty(userId))
         {
@@ -110,7 +112,7 @@ public class CompanyController : Controller
     // POST: Company/Create
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("CompanyId,CompanyName,IsActive,TaxNumber,Adress,Mail,TaxOffice,PersonandLegal,MaturityDate,PhoneNumber")] Company company)
+    public async Task<IActionResult> Create([Bind("CompanyId,CompanyName,IsActive,TaxNumber,Adress,Mail,TaxOffice,PersonandLegal,WorkingType,MaturityDate,PhoneNumber")] Company company)
     {
         if (ModelState.IsValid)
         {
@@ -170,7 +172,7 @@ public class CompanyController : Controller
     // POST: Company/Edit/5
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(Guid id, [Bind("CompanyId,CompanyName,IsActive,TaxNumber,Adress,Mail,TaxOffice,PersonandLegal,MaturityDate,PhoneNumber")] Company company)
+    public async Task<IActionResult> Edit(Guid id, [Bind("CompanyId,CompanyName,IsActive,TaxNumber,Adress,Mail,TaxOffice,PersonandLegal,WorkingType,MaturityDate,PhoneNumber")] Company company)
     {
         if (id != company.CompanyId)
         {

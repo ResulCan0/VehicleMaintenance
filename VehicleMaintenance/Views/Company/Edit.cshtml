@@ -14,7 +14,7 @@
     </div>
 
     <div class="form-group">
-        <label asp-for="TaxNumber" class="control-label">Vergi Numarası</label>
+        <label asp-for="TaxNumber" class="control-label">VKN / TCKN</label>
         <input asp-for="TaxNumber" class="form-control" />
         <span asp-validation-for="TaxNumber" class="text-danger"></span>
     </div>
@@ -24,7 +24,7 @@
         <span asp-validation-for="TaxOffice" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="Adress" class="control-label">Şirket Adresi</label>
+        <label asp-for="Adress" class="control-label">Adres</label>
         <input asp-for="Adress" class="form-control" />
         <span asp-validation-for="Adress" class="text-danger"></span>
     </div>
@@ -34,17 +34,30 @@
         <span asp-validation-for="PhoneNumber" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="Mail" class="control-label">Şirket Mail</label>
+        <label asp-for="Mail" class="control-label">E-Mail</label>
         <input asp-for="Mail" class="form-control" />
         <span asp-validation-for="Mail" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="PersonandLegal" class="control-label">Şirket Tüzel mi Şahıs mı?</label>
-        <input asp-for="PersonandLegal" class="form-control" />
+        <label asp-for="PersonandLegal" class="control-label">Şirket Tipi</label>
+        <select id="PersonandLegal" name="PersonandLegal" class="form-control">
+            <option value="Seçiniz">Seçiniz</option>
+            <option value="Şahıs">Şahıs</option>
+            <option value="Tüzel">Tüzel</option>
+        </select>
         <span asp-validation-for="PersonandLegal" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label asp-for="MaturityDate" class="control-label">Firma Vade Süresi</label>
+        <label asp-for="WorkingType" class="control-label">Çalışma Tipi</label>
+        <select id="WorkingType" name="WorkingType" class="form-control">
+            <option value="Seçiniz">Seçiniz</option>
+            <option value="Cari">Cari</option>
+            <option value="Diğer">Diğer</option>
+        </select>
+        <span asp-validation-for="WorkingType" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="MaturityDate" class="control-label">Firma Vade</label>
         <input asp-for="MaturityDate" class="form-control" />
         <span asp-validation-for="MaturityDate" class="text-danger"></span>
     </div>

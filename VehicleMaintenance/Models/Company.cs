@@ -1,11 +1,14 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using VehicleMaintenance.Middleware;
 
 public class Company
 {
-    public Company() { }
+    public Company() 
+    {
+    }
 
     private string _companyName;
 
@@ -35,6 +38,7 @@ public class Company
     public string TaxOffice { get; set; }
     public string PhoneNumber { get; set; }
     public string PersonandLegal { get; set; }
+    public string WorkingType { get; set; }
     public string MaturityDate { get; set; }
     public bool IsActive { get; set; }
     public bool IsDeleted { get; set; } = false;

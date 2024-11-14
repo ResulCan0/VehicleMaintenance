@@ -10,14 +10,15 @@
     <thead class="thead-dark">
         <tr>
             <th>Şirket Adı</th>
-            <th>Şirket Adresi</th>
-            <th>Şirket Telefonu</th>
-            <th>Şirket Maili</th>
+            <th>Adres</th>
+            <th>Telefon Numarası</th>
+            <th>E-Mail</th>
             <th>Vergi Dairesi</th>
-            <th>Şahıs mı ? Tüzel mi ?</th>
+            <th>Şirket Tipi</th>
+            <th>Çalışma Tipi</th>
             <th>Vade Gün</th>
             <th>Aktif</th>
-            <th>Vergi Numarası</th>
+            <th>VKN / TCKN</th>
             <th>Düzenle - Detaylar - Sil</th>
         </tr>
     </thead>
@@ -31,6 +32,7 @@
                 <td>@company.Mail</td>
                 <td>@company.TaxOffice</td>
                 <td>@company.PersonandLegal</td>
+                <td>@company.WorkingType</td>
                 <td>@company.MaturityDate</td>
                 <td>@(company.IsActive ? "Yes" : "No")</td>
                 <td>@company.TaxNumber</td>
