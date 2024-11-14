@@ -12,16 +12,26 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         /* General Styles */
-        body, html {
-            min-height: 100%;
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            /* Arka plan geçişi için !important ile daha belirgin bir stil ekleyin */
+            background: linear-gradient(to bottom, #85d8ce, #007EA7) no-repeat !important;
+            background-size: cover !important;
+            color: #ffffff;
             display: flex;
             flex-direction: column;
-            background-color: #f4f4f9;
+            min-height: 100vh;
         }
 
         .container-fluid {
             flex: 1;
         }
+        
 
         canvas {
             -webkit-box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.1);
@@ -91,7 +101,7 @@
         }
     </style>
 </head>
-<body>
+<body style="background: linear-gradient(to bottom, #85d8ce, #007EA7) no-repeat; background-size: cover;">
 
     <div class="container-fluid">
         <!-- Cards Section -->
