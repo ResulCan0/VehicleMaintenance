@@ -60,6 +60,7 @@ app.UseRouting();
 // Oturum middleware'ýný buraya taþýdýk
 app.UseSession();
 app.UseMiddleware<RequestLoggingMiddleware>();
+app.UseMiddleware<VisitorTrackingMiddleware>();
 
 // Kimlik doðrulama middleware'ýný ekle
 app.UseAuthentication();
@@ -67,6 +68,6 @@ app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Account}/{action=Login}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

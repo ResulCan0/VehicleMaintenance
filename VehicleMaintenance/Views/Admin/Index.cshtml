@@ -1,0 +1,52 @@
+﻿<h1>CRM Yönetici Paneli</h1>
+
+<h2>Site İstatistikleri</h2>
+<p>Toplam ziyaretçi sayısı: <strong>@ViewBag.VisitorCount</strong></p>
+
+
+<h2>Site Başvuruları</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Başvuru Tarihi</th>
+            <th>Kullanıcı Adı</th>
+            <th>Email</th>
+            <th>Hizmetler</th>
+            <th>Mesaj</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var application in Model.Applications)
+        {
+            <tr>
+                <td>@application.ApplicationDate.ToString("dd/MM/yyyy HH:mm")</td>
+                <td>@application.Name</td>
+                <td>@application.Email</td>
+                <td>
+                    <ul>
+                        @if ((application.VehicleTracking ?? false))
+                        {
+                            <li>Araç Takip</li>
+                        }
+                        @if ((application.StockTracking ?? false))
+                        {
+                            <li>Stok Takip</li>
+                        }
+                        @if ((application.Ecommerce ?? false))
+                        {
+                            <li>E-Ticaret</li>
+                        }
+                        @if ((application.SeoOptimization ?? false))
+                        {
+                            <li>SEO Optimizasyonu</li>
+                        }
+                    </ul>
+
+                </td>
+                <td>@application.Message</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+

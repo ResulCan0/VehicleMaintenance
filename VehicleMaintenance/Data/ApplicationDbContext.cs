@@ -23,6 +23,9 @@ public class ApplicationDbContext : DbContext
     public DbSet<ClickLog> ClickLogs { get; set; }
     public DbSet<Log> Logging { get; set; }
     public DbSet<FixedDefinition> FixedDefinitions { get; set; }
+    public DbSet<Visitor> Visitors { get; set; }
+    public DbSet<SiteStatistic> SiteStatistics { get; set; }
+    public DbSet<Application> Applications { get; set; }
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IConfiguration configuration)
     : base(options)
     {
