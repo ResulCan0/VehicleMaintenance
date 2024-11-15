@@ -3,3 +3,34 @@
 @{
     ViewData["Title"] = "Sabit Tanım Sil";
 }
+<h3>Silmek İstediğinize Emin Misiniz?</h3>
+<div>
+    <h4>@Model.Name</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            Grup Kod
+        </dt>
+        <dd class="col-sm-10">
+            @Model.GroupCode
+        </dd>
+        <dt class="col-sm-2">
+            Kod
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Code
+        </dd>
+        <dt class="col-sm-2">
+            Name
+        </dt>
+        <dd class="col-sm-10">
+            @Model.Name
+        </dd>
+    </dl>
+
+    <form asp-action="Delete">
+        <input type="hidden" asp-for="FixedDefinitionId" />
+        <input type="submit" value="Sil" class="btn btn-danger" /> |
+        <a asp-action="Index" class="btn btn-secondary">İptal</a>
+    </form>
+</div>
