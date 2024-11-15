@@ -60,6 +60,8 @@ public class CompanyController : Controller
     // GET: Company/Create
     public IActionResult Create()
     {
+        ViewData["FixedDefinitionId"] = new SelectList(_context.FixedDefinitions.Where(d=> d.GroupCode == "SIRKETTIPI"), "Name", "Name");
+        ViewData["FixedDefinitionSabit"] = new SelectList(_context.FixedDefinitions.Where(d => d.GroupCode == "CALISMATIPI"), "Name", "Name");
         return View();
     }
 
@@ -116,6 +118,8 @@ public class CompanyController : Controller
     {
         if (ModelState.IsValid)
         {
+            ViewData["FixedDefinitionId"] = new SelectList(_context.FixedDefinitions.Where(d => d.GroupCode == "SIRKETTIPI"), "Name", "Name");
+            ViewData["FixedDefinitionSabit"] = new SelectList(_context.FixedDefinitions.Where(d => d.GroupCode == "CALISMATIPI"), "Name", "Name");
             var existingCompany = await _context.Companies.FirstOrDefaultAsync(u => u.CompanyName == company.CompanyName);
             if (existingCompany != null)
             {
@@ -133,6 +137,8 @@ public class CompanyController : Controller
     // GET: Company/Edit/5
     public async Task<IActionResult> Edit(Guid? id)
     {
+        ViewData["FixedDefinitionId"] = new SelectList(_context.FixedDefinitions.Where(d => d.GroupCode == "SIRKETTIPI"), "Name", "Name");
+        ViewData["FixedDefinitionSabit"] = new SelectList(_context.FixedDefinitions.Where(d => d.GroupCode == "CALISMATIPI"), "Name", "Name");
         if (id == null)
         {
             return NotFound();
@@ -174,6 +180,8 @@ public class CompanyController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(Guid id, [Bind("CompanyId,CompanyName,IsActive,TaxNumber,Adress,Mail,TaxOffice,PersonandLegal,WorkingType,MaturityDate,PhoneNumber")] Company company)
     {
+        ViewData["FixedDefinitionId"] = new SelectList(_context.FixedDefinitions.Where(d => d.GroupCode == "SIRKETTIPI"), "Name", "Name");
+        ViewData["FixedDefinitionSabit"] = new SelectList(_context.FixedDefinitions.Where(d => d.GroupCode == "CALISMATIPI"), "Name", "Name");
         if (id != company.CompanyId)
         {
             return NotFound();

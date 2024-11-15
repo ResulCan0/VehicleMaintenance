@@ -59,12 +59,12 @@
         <h2>Kullanıcı Girişi</h2>
         <form asp-action="Login" method="post">
             <div class="form-group">
-                <label asp-for="Email">Email</label>
+                <label asp-for="Email" style="color: black;">Email</label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Password">Şifre</label>
+                <label asp-for="Password" style="color: black;">Şifre</label>
                 <input asp-for="Password" type="password" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
