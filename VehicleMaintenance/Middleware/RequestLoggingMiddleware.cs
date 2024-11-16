@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.IO;
 using System.Linq;
 using System;
+using System.Security.Claims;
 
 public class RequestLoggingMiddleware
 {
@@ -17,12 +18,13 @@ public class RequestLoggingMiddleware
     public async Task InvokeAsync(HttpContext context)
     {
         var request = context.Request;
-
+        var userIdClaim = context.User.FindFirst(ClaimTypes.NameIdentifier);
+        var userIdss = userIdClaim?.Value;
         // Veritabanı context'ini isteğe bağlı olarak alın (scoped yaşam döngüsü içinde)
         var dbContext = context.RequestServices.GetRequiredService<ApplicationDbContext>();
         var userIdString = context.Session.GetString("UserId");
         Guid userId;
-        bool isUserIdValid = Guid.TryParse(userIdString, out userId);
+        bool isUserIdValid = Guid.TryParse(userIdss, out userId);
       
         var log = new Log
         {
