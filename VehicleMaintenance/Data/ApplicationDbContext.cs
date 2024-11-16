@@ -26,6 +26,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<Visitor> Visitors { get; set; }
     public DbSet<SiteStatistic> SiteStatistics { get; set; }
     public DbSet<Application> Applications { get; set; }
+    public DbSet<FeaturedNumber> FeaturedNumbers { get; set; }
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IConfiguration configuration)
     : base(options)
     {

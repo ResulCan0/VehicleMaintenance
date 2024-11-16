@@ -1,5 +1,7 @@
-﻿@{
-    Layout = null; // Disable the layout for this view
+﻿@using VehicleMaintenance.Middleware
+@{
+    Layout = null;
+    // Disable the layout for this view
 }
 <!doctype html>
 <html lang="en">
@@ -31,13 +33,6 @@
 
     </style>
 
-    <!--
-
-    TemplateMo 578 First Portfolio
-
-    https://templatemo.com/tm-578-first-portfolio
-
-    -->
 </head>
 
 <body>
@@ -107,7 +102,7 @@
                             </div>
 
                             <h2 class="mb-4">Bizimle çalışmak ister misiniz?</h2>
-                            <p class="mb-4"><a class="custom-btn btn custom-link" href="#section_1">Demo Talebi</a></p>
+                            <p class="mb-4"><a class="custom-btn btn custom-link" href="#section_1">@DynamicContentHelper.Value("DemoText")</a></p>
                             <p class="mb-4" style="color:white"><i class="bi bi-check-circle" style="color:white"></i> 15 Gün Ücretsiz Kullanın</p>
                         </div>
                     </div>
@@ -143,7 +138,7 @@
 
                             <h3 class="pt-2 mb-3">OtoVizyon Hakkında</h3>
 
-                            <p>OtoVizyon, araç sahiplerinin araçlarıyla ilgili bakım, onarım ve diğer servis ihtiyaçlarını karşılamak için kullanabilecekleri bir platformdur. OtoVizyon, kullanıcıların araçları için periyodik bakım, arıza onarımı, hasar onarımı, muayene gibi hizmetleri güvenilir ve ekonomik bir şekilde sağlar. OtoVizyon üzerinden araç raporlarını ve araç hakkında oluşturmak istediğiniz özel raporları sizlere özel hazırlanarak servislere sunmanızı sağlar. Sonuç olarak, OtoVizyon araç sahiplerine zaman ve maliyet tasarrufu sağlayarak araç bakım ve onarım süreçlerini kolaylaştırır.</p>
+                            <p>@DynamicContentHelper.Value("otovizyonaciklama")</p>
 
                         </div>
                     </div>
@@ -165,22 +160,22 @@
                             <div class="profile-body">
                                 <p>
                                     <span class="profile-small-title">Geliştiren Şirket</span>
-                                    <span>Helm Software</span>
+                                    <span>@DynamicContentHelper.Value("otovizyongelistirensirket")</span>
                                 </p>
 
                                 <p>
                                     <span class="profile-small-title">Kuruluş</span>
-                                    <span>1453</span>
+                                    <span>@DynamicContentHelper.Value("otovizyonkurulustarihi")</span>
                                 </p>
 
                                 <p>
-                                    <span class="profile-small-title">Phone</span>
-                                    <span><a href="#">0 (555) 555 55 55</a></span>
+                                    <span class="profile-small-title">Telefon</span>
+                                    <span><a href="#">@DynamicContentHelper.Value("otovizyontelefonnumarasi")</a></span>
                                 </p>
 
                                 <p>
                                     <span class="profile-small-title">Email</span>
-                                    <span><a href="#">about@otovizyon.com</a></span>
+                                    <span><a href="#">@DynamicContentHelper.Value("otovizyonemail")</a></span>
                                 </p>
                             </div>
                         </div>
@@ -269,10 +264,10 @@
                             <div class="col-lg-6 col-12">
                                 <div class="services-thumb">
                                     <div class="d-flex flex-wrap align-items-center border-bottom mb-4 pb-3">
-                                        <h3 class="mb-0">Araç Takip Modülü</h3>
+                                        <h3 class="mb-0">@DynamicContentHelper.Value("aracbakim")</h3>
 
                                         <div class="services-price-wrap ms-auto">
-                                            <p class="services-price-text mb-0">$2,400</p>
+                                            <p class="services-price-text mb-0">@DynamicContentHelper.Value("aracbakimfiyat")</p>
                                             <div class="services-price-overlay"></div>
                                         </div>
                                     </div>
@@ -290,10 +285,10 @@
                             <div class="col-lg-6 col-12">
                                 <div class="services-thumb services-thumb-up">
                                     <div class="d-flex flex-wrap align-items-center border-bottom mb-4 pb-3">
-                                        <h3 class="mb-0">Stok Takip Modülü</h3>
+                                        <h3 class="mb-0">@DynamicContentHelper.Value("stoktakip")</h3>
 
                                         <div class="services-price-wrap ms-auto">
-                                            <p class="services-price-text mb-0">$1,200</p>
+                                            <p class="services-price-text mb-0">@DynamicContentHelper.Value("stoktakipfiyat")</p>
                                             <div class="services-price-overlay"></div>
                                         </div>
                                     </div>
@@ -311,10 +306,10 @@
                             <div class="col-lg-6 col-12">
                                 <div class="services-thumb">
                                     <div class="d-flex flex-wrap align-items-center border-bottom mb-4 pb-3">
-                                        <h3 class="mb-0">Bla Bla</h3>
+                                        <h3 class="mb-0">@DynamicContentHelper.Value("yenimodül1")</h3>
 
                                         <div class="services-price-wrap ms-auto">
-                                            <p class="services-price-text mb-0">$3,600</p>
+                                            <p class="services-price-text mb-0">@DynamicContentHelper.Value("yenimodül1fiyat")</p>
                                             <div class="services-price-overlay"></div>
                                         </div>
                                     </div>
@@ -332,10 +327,10 @@
                             <div class="col-lg-6 col-12">
                                 <div class="services-thumb services-thumb-up">
                                     <div class="d-flex flex-wrap align-items-center border-bottom mb-4 pb-3">
-                                        <h3 class="mb-0">Bla Bla 2</h3>
+                                        <h3 class="mb-0">@DynamicContentHelper.Value("yenimodül2")</h3>
 
                                         <div class="services-price-wrap ms-auto">
-                                            <p class="services-price-text mb-0">$1,450</p>
+                                            <p class="services-price-text mb-0">@DynamicContentHelper.Value("yenimodül2fiyat")</p>
                                             <div class="services-price-overlay"></div>
                                         </div>
                                     </div>
@@ -405,14 +400,14 @@
                                     <strong class="site-footer-title d-block mb-3">Hakkında</strong>
 
                                     <p class="mb-2">
-                                        Araç Muayene istasyonunuzu yönetin.
+                                        Araç Bakım Sisteminizi yönetin.
                               </p>
 
                                     <strong class="site-footer-title d-block mt-4 mb-3">Email</strong>
 
                                     <p>
                                         <a href="#">
-                                            about@otovizyon.com
+                                    @DynamicContentHelper.Value("otoviyonemail")
                                         </a>
                                     </p>
 
@@ -420,7 +415,7 @@
 
                                     <p class="mb-0">
                                         <a href="#">
-                                            0 (555) 555 55 55
+                                    @DynamicContentHelper.Value("otovizyontelefonnumarasi")
                                         </a>
                                     </p>
                                 </div>
@@ -447,7 +442,7 @@
                                         <input name="VehicleTracking" type="checkbox" class="form-check-input" id="inlineCheckbox1" value="true">
                                         <label class="form-check-label" for="inlineCheckbox1">
                                             <i class="bi-globe form-check-icon"></i>
-                                            <span class="form-check-label-text">Araç Takip</span>
+                                            <span class="form-check-label-text">@DynamicContentHelper.Value("aracbakim")</span>
                                         </label>
                                     </div>
                                 </div>
@@ -457,7 +452,7 @@
                                         <input name="StockTracking" type="checkbox" class="form-check-input" id="inlineCheckbox2" value="true">
                                         <label class="form-check-label" for="inlineCheckbox2">
                                             <i class="bi-lightbulb form-check-icon"></i>
-                                            <span class="form-check-label-text">Stok Takip</span>
+                                            <span class="form-check-label-text">@DynamicContentHelper.Value("stoktakip")</span>
                                         </label>
                                     </div>
                                 </div>
@@ -467,7 +462,7 @@
                                         <input name="Ecommerce" type="checkbox" class="form-check-input" id="inlineCheckbox3" value="true">
                                         <label class="form-check-label" for="inlineCheckbox3">
                                             <i class="bi-phone form-check-icon"></i>
-                                            <span class="form-check-label-text">E-Ticaret</span>
+                                            <span class="form-check-label-text">@DynamicContentHelper.Value("yenimodül1")</span>
                                         </label>
                                     </div>
                                 </div>
@@ -477,7 +472,7 @@
                                         <input name="SeoOptimization" type="checkbox" class="form-check-input" id="inlineCheckbox4" value="true">
                                         <label class="form-check-label" for="inlineCheckbox4">
                                             <i class="bi-google form-check-icon"></i>
-                                            <span class="form-check-label-text">SEO Optimizasyonu</span>
+                                            <span class="form-check-label-text">@DynamicContentHelper.Value("yenimodül2")</span>
                                         </label>
                                     </div>
                                 </div>
@@ -513,9 +508,9 @@
                     <div class="col-lg-12 col-12">
                         <div class="copyright-text-wrap">
                             <p class="mb-0">
-                                <span class="copyright-text">Copyright © 1453 <a href="#">Helm Software</a> Company. All rights reserved.</span>
+                                <span class="copyright-text">Copyright © @DateTime.Now.Year <a href="#">Helm Software</a> Company. All rights reserved.</span>
                                 Design: 
-                                <a rel="sponsored" href="https://templatemo.com" target="_blank">Helm Software A.Ş.</a>
+                                <a rel="sponsored" href="" target="_blank">Helm Software A.Ş.</a>
                             </p>
                         </div>
                     </div>

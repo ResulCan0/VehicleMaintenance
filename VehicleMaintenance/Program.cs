@@ -51,7 +51,7 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Home/Error");
     app.UseHsts();
 }
-
+DynamicContentHelper.Configure(app.Services);
 // Middleware'leri sýrasýyla ekleme
 app.UseHttpsRedirection();
 app.UseStaticFiles();
