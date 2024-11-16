@@ -103,7 +103,7 @@
 
                             <h2 class="mb-4">Bizimle çalışmak ister misiniz?</h2>
                             <p class="mb-4"><a class="custom-btn btn custom-link" href="#section_1">@DynamicContentHelper.Value("DemoText")</a></p>
-                            <p class="mb-4" style="color:white"><i class="bi bi-check-circle" style="color:white"></i> 15 Gün Ücretsiz Kullanın</p>
+                            <p class="mb-4" style="color:white"><i class="bi bi-check-circle" style="color:white"></i> @DynamicContentHelper.Value("DemoSayiText")</p>
                         </div>
                     </div>
 
@@ -175,7 +175,7 @@
 
                                 <p>
                                     <span class="profile-small-title">Email</span>
-                                    <span><a href="#">@DynamicContentHelper.Value("otovizyonemail")</a></span>
+                                    <span><a href="#"></a></span>
                                 </p>
                             </div>
                         </div>
@@ -185,27 +185,27 @@
                         <div class="about-thumb">
                             <div class="row">
                                 <div class="col-lg-6 col-6 featured-border-bottom py-2">
-                                    <strong class="featured-numbers">20+</strong>
+                                    <strong class="featured-numbers">@DynamicContentHelper.Value("deneyimyil")</strong>
 
-                                    <p class="featured-text">Yıllık Deneyim</p>
+                                    <p class="featured-text">@DynamicContentHelper.Value("deneyim")</p>
                                 </div>
 
                                 <div class="col-lg-6 col-6 featured-border-start featured-border-bottom ps-5 py-2">
-                                    <strong class="featured-numbers">245</strong>
+                                    <strong class="featured-numbers">@DynamicContentHelper.Value("sayimüsteri")</strong>
 
-                                    <p class="featured-text">Mutlu Müşteri</p>
+                                    <p class="featured-text">@DynamicContentHelper.Value("müsteri")</p>
                                 </div>
 
                                 <div class="col-lg-6 col-6 pt-4">
-                                    <strong class="featured-numbers">640</strong>
+                                    <strong class="featured-numbers">@DynamicContentHelper.Value("sayikullanici")</strong>
 
-                                    <p class="featured-text">Kullanıcı</p>
+                                    <p class="featured-text">@DynamicContentHelper.Value("kullanici")</p>
                                 </div>
 
                                 <div class="col-lg-6 col-6 featured-border-start ps-5 pt-4">
-                                    <strong class="featured-numbers">72+</strong>
+                                    <strong class="featured-numbers">@DynamicContentHelper.Value("sayiödül")</strong>
 
-                                    <p class="featured-text">Ödül</p>
+                                    <p class="featured-text">@DynamicContentHelper.Value("ödül")</p>
                                 </div>
                             </div>
                         </div>
@@ -223,27 +223,27 @@
                     <div class="col-lg-12 col-12">
                         <h3 class="text-center mb-5">Çalıştığımız firmalardan birkaçı</h3>
                     </div>
+                    @{
+                    // <div class="col-lg-2 col-4 ms-auto clients-item-height">
+                    //     <img src="/images/clients/cachet.svg" class="clients-image img-fluid" alt="">
+                    // </div>
 
-                    <div class="col-lg-2 col-4 ms-auto clients-item-height">
-                        <img src="/images/clients/cachet.svg" class="clients-image img-fluid" alt="">
-                    </div>
+                    // <div class="col-lg-2 col-4 clients-item-height">
+                    //     <img src="/images/clients/guitar-center.svg" class="clients-image img-fluid" alt="">
+                    // </div>
 
-                    <div class="col-lg-2 col-4 clients-item-height">
-                        <img src="/images/clients/guitar-center.svg" class="clients-image img-fluid" alt="">
-                    </div>
+                    // <div class="col-lg-2 col-4 clients-item-height">
+                    //     <img src="/images/clients/tokico.svg" class="clients-image img-fluid" alt="">
+                    // </div>
 
-                    <div class="col-lg-2 col-4 clients-item-height">
-                        <img src="/images/clients/tokico.svg" class="clients-image img-fluid" alt="">
-                    </div>
+                    // <div class="col-lg-2 col-4 clients-item-height">
+                    //     <img src="/images/clients/shopify.svg" class="clients-image img-fluid" alt="">
+                    // </div>
 
-                    <div class="col-lg-2 col-4 clients-item-height">
-                        <img src="/images/clients/shopify.svg" class="clients-image img-fluid" alt="">
-                    </div>
-
-                    <div class="col-lg-2 col-4 me-auto clients-item-height">
-                        <img src="/images/clients/profil-rejser.svg" class="clients-image img-fluid" alt="">
-                    </div>
-
+                    // <div class="col-lg-2 col-4 me-auto clients-item-height">
+                    //     <img src="/images/clients/profil-rejser.svg" class="clients-image img-fluid" alt="">
+                    // </div>
+                    }
                 </div>
             </div>
         </section>
@@ -255,7 +255,7 @@
 
                     <div class="col-lg-10 col-12 mx-auto">
                         <div class="section-title-wrap d-flex justify-content-center align-items-center mb-5">
-                            <img src="/images/handshake-man-woman-after-signing-business-contract-closeup.jpg" class="avatar-image img-fluid" alt="">
+                            <img src="/images/portrait-happy-excited-man-holding-laptop-computer.png" class="avatar-image img-fluid" alt="">
 
                             <h2 class="text-white ms-4 mb-0">Modüller</h2>
                         </div>
@@ -368,30 +368,30 @@
                                     <strong class="site-footer-title d-block mb-3">Modüller</strong>
 
                                     <ul class="footer-menu">
-                                        <li class="footer-menu-item"><a href="#" class="footer-menu-link">Araç Takip</a></li>
+                                <li class="footer-menu-item"><a href="#" class="footer-menu-link">@DynamicContentHelper.Value("aracbakim")</a></li>
 
-                                        <li class="footer-menu-item"><a href="#" class="footer-menu-link">Stok Takip</a></li>
+                                <li class="footer-menu-item"><a href="#" class="footer-menu-link">@DynamicContentHelper.Value("stoktakip")</a></li>
 
-                                        <li class="footer-menu-item"><a href="#" class="footer-menu-link">Bla Bla</a></li>
+                                <li class="footer-menu-item"><a href="#" class="footer-menu-link">@DynamicContentHelper.Value("yenimodül1")</a></li>
 
-                                        <li class="footer-menu-item"><a href="#" class="footer-menu-link">Bla Bla 2</a></li>
+                                <li class="footer-menu-item"><a href="#" class="footer-menu-link">@DynamicContentHelper.Value("yenimodül2")</a></li>
                                     </ul>
 
                                     <strong class="site-footer-title d-block mt-4 mb-3">Bağlantıda Kalın</strong>
 
                                     <ul class="social-icon">
-                                        <li class="social-icon-item"><a href="#" class="social-icon-link bi-twitter"></a></li>
+                                <li class="social-icon-item"><a href="@DynamicContentHelper.Value("twitterlink")" class="social-icon-link bi-twitter"></a></li>
 
-                                        <li class="social-icon-item"><a href="#" class="social-icon-link bi-instagram"></a></li>
+                                <li class="social-icon-item"><a href="@DynamicContentHelper.Value("instagramlink")" class="social-icon-link bi-instagram"></a></li>
 
-                                        <li class="social-icon-item"><a href="#" class="social-icon-link bi-pinterest"></a></li>
+                                <li class="social-icon-item"><a href="@DynamicContentHelper.Value("pinterestlink")" class="social-icon-link bi-pinterest"></a></li>
 
-                                        <li class="social-icon-item"><a href="#" class="social-icon-link bi-youtube"></a></li>
+                                <li class="social-icon-item"><a href="@DynamicContentHelper.Value("youtubelink")" class="social-icon-link bi-youtube"></a></li>
                                     </ul>
 
                                     <strong class="site-footer-title d-block mt-4 mb-3">OtoVizyon'u kullanmaya başlayın</strong>
 
-                                    <p class="mb-0">Lorem, ipsum dolor.</p>
+                                    <p class="mb-0">.</p>
                                 </div>
                             </div>
 
