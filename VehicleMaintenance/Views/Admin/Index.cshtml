@@ -1,11 +1,4 @@
-﻿<h1>CRM Yönetici Paneli</h1>
-
-<h2>Site İstatistikleri</h2>
-<p>Toplam ziyaretçi sayısı: <strong>@ViewBag.VisitorCount</strong></p>
-
-
-<h2>Site Başvuruları</h2>
-<table class="table table-striped">
+﻿<table class="table table-striped">
     <thead>
         <tr>
             <th>Başvuru Tarihi</th>
@@ -13,6 +6,9 @@
             <th>Email</th>
             <th>Hizmetler</th>
             <th>Mesaj</th>
+            <th>Satış Durumu</th>
+            <th>Neden</th>
+            <th>İşlem</th>
         </tr>
     </thead>
     <tbody>
@@ -41,12 +37,14 @@
                             <li>SEO Optimizasyonu</li>
                         }
                     </ul>
-
                 </td>
                 <td>@application.Message</td>
+                <td>@application.SalesStatus</td>
+                <td>@application.Reason</td>
+                <td>
+                    <a href="/Admin/Edit/@application.Id" class="btn btn-primary">Düzenle</a>
+                </td>
             </tr>
         }
     </tbody>
 </table>
-
-
