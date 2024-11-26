@@ -33,6 +33,7 @@ namespace VehicleMaintenance.Controllers
                 }
                 System.IO.File.WriteAllBytes(captchaImagePath, captchaImage);
 
+                // Captcha resmini ViewBag'e gönder
                 ViewBag.CaptchaImagePath = "/captcha/captcha.jpg"; // Görüntüleme için yol
             }
             else
@@ -49,11 +50,29 @@ namespace VehicleMaintenance.Controllers
             if (string.IsNullOrEmpty(vergiNo) || string.IsNullOrEmpty(captchaCode))
             {
                 ViewBag.Message = "Lütfen tüm alanları doldurun.";
-                return View("Index");
+            }
+            else
+            {
+                var result = await SorgulaMukellefAsync(vergiNo, captchaCode);
+                ViewBag.SorguSonucu = result;
             }
 
-            var result = await SorgulaMukellefAsync(vergiNo, captchaCode);
-            ViewBag.SorguSonucu = result;
+            // CAPTCHA resmini POST işleminden sonra da tekrar ekle
+            var captchaImageUrl = "https://sorgu.efatura.gov.tr/kullanicilar/img.php";
+            var captchaImage = await GetCaptchaImageAsync(captchaImageUrl);
+            if (captchaImage != null)
+            {
+                var captchaImagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "captcha", "captcha.jpg");
+                string directoryPath = Path.GetDirectoryName(captchaImagePath);
+                if (!Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+                System.IO.File.WriteAllBytes(captchaImagePath, captchaImage);
+
+                ViewBag.CaptchaImagePath = "/captcha/captcha.jpg";
+            }
+
             return View("Index");
         }
 
@@ -81,10 +100,10 @@ namespace VehicleMaintenance.Controllers
             client.Timeout = TimeSpan.FromSeconds(30); // 30 saniye zaman aşımı
             var postData = new FormUrlEncodedContent(new[]
             {
-                new KeyValuePair<string, string>("search_string", vergiNo),
-                new KeyValuePair<string, string>("captcha_code", captchaCode),
-                new KeyValuePair<string, string>("submit", "Ara")
-            });
+        new KeyValuePair<string, string>("search_string", vergiNo),
+        new KeyValuePair<string, string>("captcha_code", captchaCode),
+        new KeyValuePair<string, string>("submit", "Ara")
+    });
 
             var response = await client.PostAsync("https://sorgu.efatura.gov.tr/kullanicilar/xliste.php", postData);
 
@@ -99,8 +118,6 @@ namespace VehicleMaintenance.Controllers
             return responseContent.Contains("Mükellef kayıtlıdır")
                 ? "Mükellef kayıtlıdır."
                 : "Mükellef kaydı bulunamadı.";
-
         }
-
     }
 }

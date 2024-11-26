@@ -4,10 +4,10 @@
 
 <h2>@ViewData["Title"]</h2>
 
-@if (ViewBag.Error != null)
+@if (ViewBag.Message != null)
 {
     <div class="alert alert-danger">
-        @ViewBag.Error
+        @ViewBag.Message
     </div>
 }
 
@@ -19,6 +19,7 @@
 
     <div class="form-group">
         <label for="captchaCode">Captcha Kodu:</label>
+        <!-- Captcha resmini buradan çekiyoruz -->
         <img src="@ViewBag.CaptchaImagePath" alt="Captcha" style="margin-bottom: 10px;" />
         <input type="text" class="form-control" id="captchaCode" name="captchaCode" required />
     </div>
