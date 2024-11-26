@@ -2,9 +2,11 @@
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.IO;
+using Microsoft.AspNetCore.Authorization;
 
 namespace VehicleMaintenance.Controllers
 {
+    [Authorize]
     public class MukellefController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
