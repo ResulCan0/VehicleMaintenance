@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
@@ -33,41 +34,31 @@ public class AdminController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Edit(Guid id)
+    public IActionResult Edit(Guid id)
     {
-        var application = await _context.Applications.FindAsync(id);
+        var application = _context.Applications.Find(id);
         if (application == null)
-        {
-            return NotFound(); // NotFound() will return a 404 response
-        }
+            return NotFound();
 
-        // Here, you can return the application data to the Edit view
-        return View(application);
+        return PartialView("Edit", application); // Partial view olarak render et
     }
 
+    // Edit işlemi
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(Application model)
+    public IActionResult Edit(Application model)
     {
-   
-            var application = await _context.Applications.FindAsync(model.Id);
-            if (application == null)
-            {
-                return NotFound(); // If the application is not found, return a 404 response
-            }
+        
+            
 
-            // Update the application details
-            application.SalesStatus = model.SalesStatus;
-            application.Reason = model.Reason;
+        var application = _context.Applications.Find(model.Id);
+        if (application == null)
+            return NotFound();
 
-            // Asynchronously save the changes
-            await _context.SaveChangesAsync();
+        application.SalesStatus = model.SalesStatus;
+        application.Reason = model.Reason;
 
-            // Redirect to the Index action
-            return RedirectToAction("Index");
-       
-
-        // If model is not valid, return the same view with validation errors
-       
+        _context.SaveChanges();
+        return Ok(); // 200 OK döndür
     }
 }

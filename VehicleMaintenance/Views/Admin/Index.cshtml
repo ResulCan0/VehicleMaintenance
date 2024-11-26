@@ -1,4 +1,25 @@
-﻿<table class="table table-striped">
+﻿
+
+    <style >
+    .text-success {
+        color: #28a745;
+        font-weight: bold;
+    }
+
+    .text-danger {
+        color: #dc3545;
+        font-weight: bold;
+    }
+
+    .text-muted {
+        color: #6c757d;
+    }
+</style>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
+<table class="table table-striped">
     <thead>
         <tr>
             <th>Başvuru Tarihi</th>
@@ -39,12 +60,83 @@
                     </ul>
                 </td>
                 <td>@application.Message</td>
-                <td>@application.SalesStatus</td>
-                <td>@application.Reason</td>
                 <td>
-                    <a href="/Admin/Edit/@application.Id" class="btn btn-primary">Düzenle</a>
+                    @if (application.SalesStatus == "Satıldı")
+                    {
+                        <span class="text-success"><strong>Satıldı</strong></span>
+                    }
+                    else
+                    {
+                        <span class="text-danger"><strong>Satılmadı</strong></span>
+                    }
+                </td>
+                <td>
+                    @if (!string.IsNullOrEmpty(application.Reason))
+                    {
+                        @application.Reason
+                    }
+                    else
+                    {
+                        <span class="text-muted">Neden belirtilmedi</span>
+                    }
+                </td>
+                <td>
+                    <button type="button" class="btn btn-primary" onclick="loadEditModal('@application.Id')">Düzenle</button>
+
                 </td>
             </tr>
         }
     </tbody>
 </table>
+<!-- Modal -->
+<div id="editModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Satış Durumu Düzenle</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="editModalContent">
+                <!-- Edit formu burada yüklenecek -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function loadEditModal(applicationId) {
+        // Edit formunu yükle
+        $.get('/Admin/Edit/' + applicationId, function (data) {
+            // Modal içeriğini güncelle
+            $('#editModalContent').html(data);
+            // Modal'ı aç
+            $('#editModal').modal('show');
+        });
+    }
+
+    // Submit işlemi
+    $(document).on('submit', '#editForm', function (e) {
+        e.preventDefault(); // Sayfanın yeniden yüklenmesini engelle
+
+        const formData = new FormData(this); // Form verilerini al
+
+        $.ajax({
+            url: '/Admin/Edit', // POST yapılacak URL
+            type: 'POST', // POST yöntemi
+            data: formData,
+            processData: false, // Verileri dönüştürme
+            contentType: false, // İçerik türünü FormData'ya uygun ayarla
+            success: function () {
+                // Modalı kapat
+                $('#editModal').modal('hide');
+                // Sayfayı yeniden yükle
+                location.reload();
+            },
+            error: function () {
+                alert("Bir hata oluştu!");
+            }
+        });
+    });
+</script>
