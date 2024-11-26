@@ -1,0 +1,34 @@
+﻿@{
+    ViewData["Title"] = "E-Fatura Mükellefi Sorgulama";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">
+        @ViewBag.Error
+    </div>
+}
+
+<form method="post" action="@Url.Action("Sorgula", "Mukellef")">
+    <div class="form-group">
+        <label for="vergiNo">Vergi Numarası:</label>
+        <input type="text" class="form-control" id="vergiNo" name="vergiNo" required />
+    </div>
+
+    <div class="form-group">
+        <label for="captchaCode">Captcha Kodu:</label>
+        <img src="@ViewBag.CaptchaImagePath" alt="Captcha" style="margin-bottom: 10px;" />
+        <input type="text" class="form-control" id="captchaCode" name="captchaCode" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Sorgula</button>
+</form>
+
+@if (ViewBag.SorguSonucu != null)
+{
+    <div class="alert alert-info">
+        @ViewBag.SorguSonucu
+    </div>
+}

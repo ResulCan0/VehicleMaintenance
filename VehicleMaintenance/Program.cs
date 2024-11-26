@@ -18,7 +18,7 @@ builder.Services.AddSession(options => {
     options.Cookie.IsEssential = true; // Çerez, kullanýcý rýzasý olmadan ayarlanabilir
     options.Cookie.SameSite = SameSiteMode.Lax; // Çapraz site istekleri için
 });
-
+builder.Services.AddHttpClient();
 // Veritabaný baðlantýsýný yapýlandýrma
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(EncryptionService.Decrypt(builder.Configuration.GetConnectionString("DefaultConnection")))); // Connection string'i ayarlayýn
